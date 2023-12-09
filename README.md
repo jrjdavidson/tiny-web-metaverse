@@ -84,7 +84,7 @@ development environment and workflow.
 
 ## Architecture overview
 
-Client:
+[Client:](https://github.com/takahirox/tiny-web-metaverse/tree/main/packages/client)
 
 - 3D graphics rendering using WebGL
 - VR/AR processing using WebXR, such as positional tracking
@@ -95,13 +95,13 @@ Client:
 - Input handling from input devices such as mouse, keyboard, touchscreen,
   VR headset, and so on
 
-Stream server:
+[Stream server:](https://github.com/takahirox/tiny-web-metaverse/tree/main/packages/stream_server)
 
 - SFU WebRTC server for client-to-client audio and video communication
 - Reduces the burden on the publisher, and also saves the number of WebRTC
   connections
 
-State server:
+[State server:](https://github.com/takahirox/tiny-web-metaverse/tree/main/packages/state_server)
 
 - A Pub/Sub server for synchronizing object state between clients
 - Adopts a Pub/Sub architecture, which makes it loosely coupled and scalable
