@@ -6,16 +6,17 @@ import {
   removeComponent
 } from "bitecs";
 import {
+  Raycasted,
+  RaycastedNearest,
+  FirstSourceInteracted,
+  FirstSourceInteractionLeaveEvent
+} from "@tiny-web-metaverse/client/src";
+import {
   Grabbable,
   Grabbed,
   GrabbedByFirstSource,
   GrabbedBySecondSource
 } from "../components/grab";
-import { Raycasted, RaycastedNearest } from "../components/raycast";
-import {
-  FirstSourceInteracted,
-  FirstSourceInteractionLeaveEvent
-} from "../components/interact";
 
 // TODO: Should what source to trigger be configurable?
 const grabingQuery = defineQuery([FirstSourceInteracted, Grabbable, Raycasted, RaycastedNearest]);

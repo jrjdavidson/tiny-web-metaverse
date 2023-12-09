@@ -17,6 +17,12 @@ export declare class AvatarMouseControlsProxy {
 	set enabled(value: boolean);
 }
 export declare const Billboard: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare const Grabbable: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare const Grabbed: import("bitecs").ComponentType<{
+	distance: "f32";
+}>;
+export declare const GrabbedByFirstSource: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare const GrabbedBySecondSource: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const ImageComponent: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare class ImageProxy {
 	private static instance;
@@ -55,6 +61,29 @@ export declare const LoadingObjectLoader: import("bitecs").ComponentType<import(
 export declare const Nametag: import("bitecs").ComponentType<{
 	objectEid: "eid";
 }>;
+export declare const Selectable: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare const Selected: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare enum SelectedType {
+	Deselected = 0,
+	Selected = 1
+}
+export declare const SelectedEvent: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export type SelectedEventValue = {
+	eid: number;
+	type: SelectedType;
+};
+export declare class SelectedEventProxy {
+	private static instance;
+	private eid;
+	private map;
+	private constructor();
+	static get(eid: number): SelectedEventProxy;
+	allocate(): void;
+	add(type: SelectedType, eid: number): void;
+	free(): void;
+	get events(): SelectedEventValue[];
+}
+export declare const SelectedEventListener: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const TextComponent: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare class TextProxy {
 	private static instance;
@@ -185,12 +214,16 @@ export declare const avatarMouseControlsSystem: (world: IWorld) => void;
 export declare const avatarVirtualJoystickSystem: (world: IWorld) => void;
 export declare const billboardSystem: (world: IWorld) => void;
 export declare const gltfMixerAnimationSystem: (world: IWorld) => void;
+export declare const grabSystem: (world: IWorld) => void;
+export declare const grabbedObjectsRayTrackSystem: (world: IWorld) => void;
 export declare const imageSystem: (world: IWorld) => void;
 export declare const imageLoadSystem: (world: IWorld) => void;
 export declare const lazilyUpdateVideoStateSystem: (world: IWorld) => void;
 export declare const loadingObjectSystem: (world: IWorld) => void;
 export declare const mouseInteractionTriggerSystem: (world: IWorld) => void;
 export declare const nametagSystem: (world: IWorld) => void;
+export declare const selectSystem: (world: IWorld) => void;
+export declare const selectedEventClearSystem: (world: IWorld) => void;
 export declare const textSystem: (world: IWorld) => void;
 export declare const touchInteractionTriggerSystem: (world: IWorld) => void;
 export declare const videoSystem: (world: IWorld) => void;

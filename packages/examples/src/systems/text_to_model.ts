@@ -10,6 +10,10 @@ import {
 import { Mesh, MeshStandardMaterial, Vector3 } from "three";
 import { client } from "@gradio/client";
 import {
+  Grabbable,
+  Selectable
+} from "@tiny-web-metaverse/addons/src";
+import {
   Avatar,
   createNetworkedEntity,
   EntityObject3D,
@@ -17,7 +21,6 @@ import {
   FirstSourceInteractable,
   GltfRoot,
   GltfRootProxy,
-  Grabbable,
   InScene,
   Loading,
   Local,
@@ -26,7 +29,6 @@ import {
   Raycastable,
   removeEntityIfNoComponent,
   SecondSourceInteractable,
-  Selectable,
   toGenerator,
   TouchEventListener,
   XRControllerSelectEventListener

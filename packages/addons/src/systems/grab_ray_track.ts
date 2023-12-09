@@ -1,12 +1,14 @@
 import { addComponent, defineQuery, IWorld } from "bitecs";
 import {
   EntityObject3D,
-  EntityObject3DProxy
-} from "../components/entity_object3d";
+  EntityObject3DProxy,
+  FirstRay,
+  InScene,
+  RayComponent,
+  RayProxy,
+  TransformUpdated
+} from "@tiny-web-metaverse/client/src";
 import { Grabbed } from "../components/grab";
-import { FirstRay, RayComponent, RayProxy } from "../components/ray";
-import { InScene } from "../components/scene";
-import { TransformUpdated } from "../components/transform";
 
 const rayQuery = defineQuery([FirstRay, RayComponent]);
 const grabbedQuery = defineQuery([EntityObject3D, Grabbed, InScene]);

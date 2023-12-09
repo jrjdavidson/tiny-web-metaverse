@@ -8,7 +8,7 @@ import {
 import {
   SecondSourceInteracted,
   SecondSourceInteractionTriggerEvent
-} from "../components/interact";
+} from "@tiny-web-metaverse/client/src";
 import {
   Selectable,
   Selected,

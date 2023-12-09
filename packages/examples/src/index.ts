@@ -14,6 +14,8 @@ import {
   clearVirtualJoystickEventSystem,
   FirstXRControllerRay,
   gltfMixerAnimationSystem,
+  grabbedObjectsRayTrackSystem,
+  grabSystem,
   imageSystem,
   imageLoadSystem,
   lazilyUpdateVideoStateSystem,
@@ -22,6 +24,9 @@ import {
   nametagSystem,
   NetworkedVideo,
   SecondXRControllerRay,
+  selectedEventClearSystem,
+  SelectedEventListener,
+  selectSystem,
   TextChat,
   textChatUISystem,
   textSystem,
@@ -51,6 +56,7 @@ import {
   GltfSceneLoaderProxy,
   EntityObject3DProxy,
   InScene,
+  interactSystem,
   InvisibleInAR,
   JoinedStreamEventListener,
   KeyEventListener,
@@ -61,7 +67,6 @@ import {
   registerSerializers,
   SceneEnvironmentMapLoader,
   SceneEnvironmentMapLoaderProxy,
-  SelectedEventListener,
   SystemOrder,
   UserNetworkEventListener,
   XRControllerConnectionEventListener
@@ -125,9 +130,14 @@ const run = async (): Promise<void> => {
   app.registerSystem(virtualJoystickUISystem, SystemOrder.EventHandling);
   app.registerSystem(webXrButtonsUISystem, SystemOrder.EventHandling);
 
-  app.registerSystem(mouseInteractionTriggerSystem, SystemOrder.EventHandling + 20);
-  app.registerSystem(touchInteractionTriggerSystem, SystemOrder.EventHandling + 20);
-  app.registerSystem(webxrControllerInteractionTriggerSystem, SystemOrder.EventHandling + 20);
+  const interactSystemOrderPriority = app.getSystemOrderPriority(interactSystem);
+
+  app.registerSystem(mouseInteractionTriggerSystem, interactSystemOrderPriority - 1);
+  app.registerSystem(touchInteractionTriggerSystem, interactSystemOrderPriority - 1);
+  app.registerSystem(webxrControllerInteractionTriggerSystem, interactSystemOrderPriority - 1);
+
+  app.registerSystem(selectSystem, interactSystemOrderPriority + 1);
+  app.registerSystem(grabSystem, interactSystemOrderPriority + 2);
 
   app.registerSystem(textChatUISystem, SystemOrder.Setup);
   app.registerSystem(textToModelUISystem, SystemOrder.Setup);
@@ -148,6 +158,7 @@ const run = async (): Promise<void> => {
   app.registerSystem(updateSidebarSystem, SystemOrder.BeforeMatricesUpdate);
   app.registerSystem(avatarVirtualJoystickSystem, SystemOrder.BeforeMatricesUpdate);
   app.registerSystem(textSystem, SystemOrder.BeforeMatricesUpdate);
+  app.registerSystem(grabbedObjectsRayTrackSystem, SystemOrder.BeforeMatricesUpdate);
 
   app.registerSystem(nametagSystem, SystemOrder.MatricesUpdate - 1);
   app.registerSystem(billboardSystem, SystemOrder.MatricesUpdate - 1);
@@ -157,6 +168,7 @@ const run = async (): Promise<void> => {
   app.registerSystem(userEventSystem, SystemOrder.Render - 1);
 
   app.registerSystem(clearVirtualJoystickEventSystem, SystemOrder.TearDown);
+  app.registerSystem(selectedEventClearSystem, SystemOrder.TearDown);
 
   const world = app.getWorld();
 

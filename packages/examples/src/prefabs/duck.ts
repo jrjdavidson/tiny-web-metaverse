@@ -4,20 +4,22 @@ import {
   IWorld
 } from "bitecs";
 import {
+  Grabbable,
+  Selectable
+} from "@tiny-web-metaverse/addons/src";
+import {
   EntityObject3D,
   EntityObject3DProxy,
   FirstSourceInteractable,
   GltfAssetLoader,
   GltfAssetLoaderProxy,
   InScene,
-  Grabbable,
   MouseButtonEventListener,
   NetworkedPosition,
   NetworkedQuaternion,
   NetworkedScale,
   Raycastable,
   SecondSourceInteractable,
-  Selectable,
   TouchEventListener,
   XRControllerSelectEventListener
 } from "@tiny-web-metaverse/client/src";

@@ -5,12 +5,15 @@ import {
 } from "bitecs";
 import { AnimationMixer } from "three";
 import {
+  Grabbable,
+  Selectable
+} from "@tiny-web-metaverse/addons/src";
+import {
   EntityObject3D,
   EntityObject3DProxy,
   FirstSourceInteractable,
   GltfAssetLoader,
   GltfAssetLoaderProxy,
-  Grabbable,
   InScene,
   MixerAnimation,
   MixerAnimationProxy,
@@ -21,7 +24,6 @@ import {
   NetworkedScale,
   Raycastable,
   SecondSourceInteractable,
-  Selectable,
   TouchEventListener,
   XRControllerSelectEventListener
 } from "@tiny-web-metaverse/client/src";

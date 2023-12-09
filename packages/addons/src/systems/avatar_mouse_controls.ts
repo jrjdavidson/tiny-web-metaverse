@@ -5,13 +5,13 @@ import {
   IWorld
 } from "bitecs";
 import { Euler } from "three";
+import { Grabbed } from "@tiny-web-metaverse/addons/src";
 import {
   Avatar,
   EntityObject3D,
   EntityObject3DProxy,
   getCurrentMousePositionProxy,
   getPreviousMousePositionProxy,
-  Grabbed,
   Local,
   MouseButtonEvent,
   MouseButtonEventProxy,
@@ -30,6 +30,7 @@ const euler = new Euler(0, 0, 0, 'YXZ');
 
 const avatarQuery = defineQuery([Avatar, AvatarMouseControls, EntityObject3D, Local]);
 const raycastedQuery = defineQuery([Raycasted, RaycastedNearest]);
+// TODO: Can we remove the dependency with Grabbed?
 const grabbedQuery = defineQuery([Grabbed]);
 
 // TODO: Consider to reuse Three.js PointerLockControls?

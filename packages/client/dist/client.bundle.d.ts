@@ -165,12 +165,6 @@ export declare class GltfSceneLoaderProxy {
 	free(): void;
 	get url(): string;
 }
-export declare const Grabbable: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare const Grabbed: import("bitecs").ComponentType<{
-	distance: "f32";
-}>;
-export declare const GrabbedByFirstSource: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare const GrabbedBySecondSource: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const FirstSourceInteractable: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const FirstSourceInteracted: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const FirstSourceInteractionTriggerEvent: import("bitecs").ComponentType<import("bitecs").ISchema>;
@@ -634,29 +628,6 @@ export declare class SceneEnvironmentMapLoaderProxy {
 	free(): void;
 	get url(): string;
 }
-export declare const Selectable: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare const Selected: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare enum SelectedType {
-	Deselected = 0,
-	Selected = 1
-}
-export declare const SelectedEvent: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export type SelectedEventValue = {
-	eid: number;
-	type: SelectedType;
-};
-export declare class SelectedEventProxy {
-	private static instance;
-	private eid;
-	private map;
-	private constructor();
-	static get(eid: number): SelectedEventProxy;
-	allocate(): void;
-	add(type: SelectedType, eid: number): void;
-	free(): void;
-	get events(): SelectedEventValue[];
-}
-export declare const SelectedEventListener: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const Serializers: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare class SerializersProxy {
 	private static instance;
@@ -1047,8 +1018,6 @@ export declare const fpsCameraSystem: (world: IWorld) => void;
 export declare const gltfSystem: (world: IWorld) => void;
 export declare const gltfAssetLoadSystem: (world: IWorld) => void;
 export declare const gltfSceneLoadSystem: (world: IWorld) => void;
-export declare const grabSystem: (world: IWorld) => void;
-export declare const grabbedObjectsRayTrackSystem: (world: IWorld) => void;
 export declare const interactSystem: (world: IWorld) => void;
 export declare const clearInteractionSystem: (world: IWorld) => void;
 export declare const keyEventHandleSystem: (world: IWorld) => void;
@@ -1085,8 +1054,6 @@ export declare const renderSystem: (world: IWorld) => void;
 export declare const rendererSystem: (world: IWorld) => void;
 export declare const sceneSystem: (world: IWorld) => void;
 export declare const sceneEnvironmentMapLoadSystem: (world: IWorld) => void;
-export declare const selectSystem: (world: IWorld) => void;
-export declare const selectedEventClearSystem: (world: IWorld) => void;
 export declare const streamConnectionSystem: (world: IWorld) => void;
 export declare const streamEventHandleSystem: (world: IWorld) => void;
 export declare const streamEventClearSystem: (world: IWorld) => void;

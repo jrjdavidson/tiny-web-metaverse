@@ -9,12 +9,14 @@ import {
   type MeshStandardMaterial
 } from "three";
 import {
+  Grabbed,
+  Selected
+} from "@tiny-web-metaverse/addons/src";
+import {
   EntityObject3D,
   EntityObject3DProxy,
-  Grabbed,
   Raycastable,
   RaycastedNearest,
-  Selected
 } from "@tiny-web-metaverse/client/src";
 
 const query = defineQuery([EntityObject3D, Raycastable]);

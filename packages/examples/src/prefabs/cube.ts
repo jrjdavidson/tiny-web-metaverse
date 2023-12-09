@@ -5,9 +5,12 @@ import {
 } from "bitecs";
 import { BoxGeometry, Mesh, MeshStandardMaterial } from "three";
 import {
+  Grabbable,
+  Selectable
+} from "@tiny-web-metaverse/addons/src";
+import {
   addObject3D,
   FirstSourceInteractable,
-  Grabbable,
   InScene,
   MouseButtonEventListener,
   NetworkedPosition,
@@ -15,7 +18,6 @@ import {
   NetworkedScale,
   Raycastable,
   SecondSourceInteractable,
-  Selectable,
   TouchEventListener,
   XRControllerSelectEventListener
 } from "@tiny-web-metaverse/client/src";

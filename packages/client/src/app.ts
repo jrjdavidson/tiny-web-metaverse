@@ -131,8 +131,6 @@ import { fpsCameraSystem } from "./systems/fps_camera";
 import { gltfSystem } from "./systems/gltf";
 import { gltfAssetLoadSystem } from "./systems/gltf_asset_load";
 import { gltfSceneLoadSystem } from "./systems/gltf_scene_load";
-import { grabSystem } from "./systems/grab";
-import { grabbedObjectsRayTrackSystem } from "./systems/grab_ray_track";
 import { clearInteractionSystem, interactSystem } from "./systems/interaction";
 import {
   keyEventHandleSystem,
@@ -175,7 +173,6 @@ import { renderSystem } from "./systems/render";
 import { rendererSystem } from "./systems/renderer";
 import { sceneSystem } from "./systems/scene";
 import { sceneEnvironmentMapLoadSystem } from "./systems/scene_environment_map_load";
-import { selectedEventClearSystem, selectSystem } from "./systems/select";
 import { streamConnectionSystem } from "./systems/stream_connection";
 import { streamRemotePeerRegisterSystem } from "./systems/stream_remote_peers";
 import { streamEventClearSystem, streamEventHandleSystem } from "./systems/stream_event";
@@ -294,7 +291,12 @@ export class App {
     this.registerSystem(webxrRaySystem, SystemOrder.EventHandling + 3);
     this.registerSystem(webxrControllerSystem, SystemOrder.EventHandling + 3);
 
-    this.registerSystem(pointerToRaySystem, SystemOrder.Setup - 1);
+    this.registerSystem(pointerToRaySystem, SystemOrder.EventHandling + 4);
+
+    this.registerSystem(raycastSystem, SystemOrder.EventHandling + 5);
+
+    // TODO: Write a comment about why +50
+    this.registerSystem(interactSystem, SystemOrder.EventHandling + 50);
 
     this.registerSystem(canvasSystem, SystemOrder.Setup);
     this.registerSystem(prefabsSystem, SystemOrder.Setup);
@@ -314,15 +316,8 @@ export class App {
     this.registerSystem(lazilyActivateAnimationSystem, SystemOrder.Setup + 1);
     this.registerSystem(generateBVHSystem, SystemOrder.Setup + 1);
 
-    this.registerSystem(raycastSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(interactSystem, SystemOrder.BeforeMatricesUpdate);
-
     this.registerSystem(linearMoveSystem, SystemOrder.BeforeMatricesUpdate);
     this.registerSystem(linearTransformSystem, SystemOrder.BeforeMatricesUpdate);
-
-    this.registerSystem(selectSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(grabSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(grabbedObjectsRayTrackSystem, SystemOrder.BeforeMatricesUpdate);
 
     this.registerSystem(fpsCameraSystem, SystemOrder.MatricesUpdate - 1);
     this.registerSystem(networkSendSystem, SystemOrder.MatricesUpdate - 1);
@@ -340,7 +335,6 @@ export class App {
     this.registerSystem(mouseButtonEventClearSystem, SystemOrder.TearDown);
     this.registerSystem(touchMoveEventClearSystem, SystemOrder.TearDown);
     this.registerSystem(touchEventClearSystem, SystemOrder.TearDown);
-    this.registerSystem(selectedEventClearSystem, SystemOrder.TearDown);
     this.registerSystem(micEventClearSystem, SystemOrder.TearDown);
     this.registerSystem(windowResizeEventClearSystem, SystemOrder.TearDown);
     this.registerSystem(networkEventClearSystem, SystemOrder.TearDown);

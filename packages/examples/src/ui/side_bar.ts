@@ -7,6 +7,11 @@ import {
 } from "bitecs";
 import { AnimationClip, Euler, Vector3 } from "three";
 import {
+  SelectedEvent,
+  SelectedEventProxy,
+  SelectedType
+} from "@tiny-web-metaverse/addons/src";
+import {
   ActiveAnimations,
   ActiveAnimationsProxy,
   ActiveAnimationsUpdated,
@@ -17,9 +22,6 @@ import {
   MixerAnimation,
   MixerAnimationProxy,
   NULL_EID,
-  SelectedEvent,
-  SelectedEventProxy,
-  SelectedType,
   TransformUpdated
 } from "@tiny-web-metaverse/client/src";
 import { SideBar } from "../components/side_bar";
