@@ -455,6 +455,21 @@ app.registerSystem(barSystem, SystemOrder.BeforeMatricesUpdate + 1);
 app.start();
 ```
 
+### getSystemOrderPriority()
+
+`App.getSystemOrderPriority()` returns the order priority of a registered
+system. This function is useful to ensure to execure a system before or
+after certain systems including built-in systems.
+
+```typescript
+import { interactSystem } from "@tiny-web-metaverse/client/src";
+
+...
+
+const priority = app.getSystemOrderPriority(interactSystem);
+app.registerSystem(fooSystem, priority + 1);
+```
+
 ## Coroutine
 
 Systems execution order is predictable in Tiny Web Metaverse Client. It makes
