@@ -6622,12 +6622,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/window_resize.ts");
 
 
-const cameraWindowResizeEnterQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCameraComponent, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.WindowResizeEvent]));
+const resize = (eid) => {
+    const camera = _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCameraProxy.get(eid).camera;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+};
+const enterCameraQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCameraComponent]));
+const enterCameraWindowResizeQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCameraComponent, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.WindowResizeEvent]));
 const windowSizedCameraSystem = (world) => {
-    cameraWindowResizeEnterQuery(world).forEach(eid => {
-        const camera = _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.PerspectiveCameraProxy.get(eid).camera;
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+    enterCameraQuery(world).forEach(eid => {
+        resize(eid);
+    });
+    enterCameraWindowResizeQuery(world).forEach(eid => {
+        resize(eid);
     });
 };
 
@@ -6650,11 +6657,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/window_resize.ts");
 
 
-const rendererWindowResizeEnterQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.Renderer, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.WindowResizeEvent]));
+const resize = (eid) => {
+    const renderer = _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.RendererProxy.get(eid).renderer;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+};
+const enterRendererQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.Renderer]));
+const enterRendererWindowResizeQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.enterQuery)((0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.Renderer, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.WindowResizeEvent]));
 const windowSizedRendererSystem = (world) => {
-    rendererWindowResizeEnterQuery(world).forEach(eid => {
-        const renderer = _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.RendererProxy.get(eid).renderer;
-        renderer.setSize(window.innerWidth, window.innerHeight);
+    enterRendererQuery(world).forEach(eid => {
+        resize(eid);
+    });
+    enterRendererWindowResizeQuery(world).forEach(eid => {
+        resize(eid);
     });
 };
 

@@ -9,13 +9,22 @@ import {
   WindowResizeEvent
 } from "@tiny-web-metaverse/client/src";
 
-const cameraWindowResizeEnterQuery =
+const resize = (eid: number): void => {
+  const camera = PerspectiveCameraProxy.get(eid).camera;
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+};
+
+const enterCameraQuery = enterQuery(defineQuery([PerspectiveCameraComponent]));
+const enterCameraWindowResizeQuery =
   enterQuery(defineQuery([PerspectiveCameraComponent, WindowResizeEvent]));
 
 export const windowSizedCameraSystem = (world: IWorld): void => {
-  cameraWindowResizeEnterQuery(world).forEach(eid => {
-    const camera = PerspectiveCameraProxy.get(eid).camera;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+  enterCameraQuery(world).forEach(eid => {
+    resize(eid);
+  });
+
+  enterCameraWindowResizeQuery(world).forEach(eid => {
+    resize(eid);
   });
 };

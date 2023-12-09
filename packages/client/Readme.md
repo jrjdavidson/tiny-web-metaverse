@@ -406,7 +406,7 @@ Systems are generally expected to be executed in the following order.
 - EventHandling: Handling async events detected while ideling. 
 - Setup: Set up any resource at the beginning of an animation loop.
 - BeforeMatricesUpdate: Update transforms (position/rotation/scale).
-- MatricesUpdate: `App` update scene graph matrices. See "Matrices update"
+- MatricesUpdate: `App` updates scene graph matrices. See ["Matrices update"](#matrices-update)
   section for the details.
 - BeforeRender: Operate anything that use updated matrices and that don't need
   transform update. Or operate anything that should be done right before
