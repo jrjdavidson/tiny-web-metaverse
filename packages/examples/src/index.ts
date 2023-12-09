@@ -1,6 +1,8 @@
 import {
   addComponent,
-  addEntity
+  addEntity,
+  defineQuery,
+  removeQuery
 } from "bitecs";
 import { AmbientLight } from "three";
 import {
@@ -43,6 +45,8 @@ import {
   webXrButtonsUISystem,
   webxrControllerInteractionTriggerSystem,
   WebXRVRButton,
+  windowSizedCameraSystem,
+  windowSizedRendererSystem,
   xrControllerRaySystem
 } from "@tiny-web-metaverse/addons/src";
 import {
@@ -63,12 +67,15 @@ import {
   MessageEventListener,
   MouseButtonEventListener,
   NetworkedType,
+  PerspectiveCameraComponent,
+  Renderer,
   registerPrefab,
   registerSerializers,
   SceneEnvironmentMapLoader,
   SceneEnvironmentMapLoaderProxy,
   SystemOrder,
   UserNetworkEventListener,
+  WindowResizeEventListener,
   XRControllerConnectionEventListener
 } from "@tiny-web-metaverse/client/src";
 
@@ -147,6 +154,8 @@ const run = async (): Promise<void> => {
   app.registerSystem(videoLoadSystem, SystemOrder.Setup);
   app.registerSystem(textToModelLoadSystem, SystemOrder.Setup);
   app.registerSystem(loadingObjectSystem, SystemOrder.Setup);
+  app.registerSystem(windowSizedCameraSystem, SystemOrder.Setup);
+  app.registerSystem(windowSizedRendererSystem, SystemOrder.Setup);
 
   app.registerSystem(gltfMixerAnimationSystem, SystemOrder.Setup + 1);
   app.registerSystem(lazilyUpdateVideoStateSystem, SystemOrder.Setup + 1);
@@ -187,6 +196,18 @@ const run = async (): Promise<void> => {
   addComponent(world, GltfSceneLoader, sceneObjectEid);
   GltfSceneLoaderProxy.get(sceneObjectEid).allocate(sceneAssetUrl);
   addComponent(world, InvisibleInAR, sceneObjectEid);
+
+  const rendererQuery = defineQuery([Renderer]);
+  rendererQuery(world).forEach(eid => {
+    addComponent(world, WindowResizeEventListener, eid);
+  });
+  removeQuery(world, rendererQuery);
+
+  const cameraQuery = defineQuery([PerspectiveCameraComponent]);
+  cameraQuery(world).forEach(eid => {
+    addComponent(world, WindowResizeEventListener, eid);
+  });
+  removeQuery(world, cameraQuery);
 
   const light = new AmbientLight(0x888888);
   const lightEid = addEntity(world);

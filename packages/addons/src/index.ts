@@ -34,6 +34,8 @@ export * from "./systems/video";
 export * from "./systems/video_loader";
 export * from "./systems/virtual_joystick_event";
 export * from "./systems/webxr_controller_interaction_trigger";
+export * from "./systems/window_sized_camera";
+export * from "./systems/window_sized_renderer";
 export * from "./systems/xr_controller_ray";
 
 export * from "./ui/textchat";

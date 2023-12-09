@@ -110,10 +110,6 @@ import {
   XRSessionComponent,
   XRSessionProxy
 } from "./components/webxr";
-import {
-  WindowResizeEventListener,
-  WindowSize
-} from "./components/window_resize";
 
 import {
   positionSerializers,
@@ -313,6 +309,7 @@ export class App {
     this.registerSystem(networkedEntitySystem, SystemOrder.Setup);
     this.registerSystem(streamRemotePeerRegisterSystem, SystemOrder.Setup);
     this.registerSystem(resumeAudioContextSystem, SystemOrder.Setup);
+
     this.registerSystem(lazilyActivateAnimationSystem, SystemOrder.Setup + 1);
     this.registerSystem(generateBVHSystem, SystemOrder.Setup + 1);
 
@@ -512,8 +509,6 @@ export class App {
     const rendererEid = addEntity(this.world);
     addComponent(this.world, Renderer, rendererEid);
     RendererProxy.get(rendererEid).allocate(renderer);
-    addComponent(this.world, WindowSize, rendererEid);
-    addComponent(this.world, WindowResizeEventListener, rendererEid);
 
     const sceneEid = addEntity(this.world);
     addComponent(this.world, SceneComponent, sceneEid);
@@ -546,8 +541,6 @@ export class App {
     addComponent(this.world, FpsCamera, cameraEid);
     addComponent(this.world, InScene, cameraEid);
     addComponent(this.world, SceneCamera, cameraEid);
-    addComponent(this.world, WindowSize, cameraEid);
-    addComponent(this.world, WindowResizeEventListener, cameraEid);
 
     // Serializers
 

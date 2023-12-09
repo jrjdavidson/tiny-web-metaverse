@@ -963,7 +963,6 @@ export declare class XRControllerSelectEventProxy {
 export declare const XRControllerSelectEventListener: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const WindowResizeEvent: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const WindowResizeEventListener: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare const WindowSize: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export type SerializedMixerAnimation = {
 	index: number;
 	paused: boolean;
