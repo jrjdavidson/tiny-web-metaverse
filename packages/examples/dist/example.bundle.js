@@ -5968,6 +5968,56 @@ const loadingObjectSystem = (world) => {
 
 /***/ }),
 
+/***/ "../addons/src/systems/mouse_interaction_trigger.ts":
+/*!**********************************************************!*\
+  !*** ../addons/src/systems/mouse_interaction_trigger.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   mouseInteractionTriggerSystem: () => (/* binding */ mouseInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/mouse.ts");
+
+
+const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
+const secondSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
+const mouseInteractionTriggerSystem = (world) => {
+    firstSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
+            if (e.button !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Left) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+    secondSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
+            if (e.button !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Right) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+};
+
+
+/***/ }),
+
 /***/ "../addons/src/systems/nametag.ts":
 /*!****************************************!*\
   !*** ../addons/src/systems/nametag.ts ***!
@@ -6099,6 +6149,41 @@ const textSystem = (world) => {
         //       detect sync completion with coroutine?
         //       Test can be easier.
         _components_text__WEBPACK_IMPORTED_MODULE_1__.TextProxy.get(eid).text.sync();
+    });
+};
+
+
+/***/ }),
+
+/***/ "../addons/src/systems/touch_interaction_trigger.ts":
+/*!**********************************************************!*\
+  !*** ../addons/src/systems/touch_interaction_trigger.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   touchInteractionTriggerSystem: () => (/* binding */ touchInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/touch.ts");
+
+
+// TODO: Second source interaction
+const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEvent]);
+const touchInteractionTriggerSystem = (world) => {
+    firstSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventProxy.get(eid).events) {
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+            // TODO: TouchEventType.Cancel
+        }
     });
 };
 
@@ -6246,6 +6331,56 @@ const clearVirtualJoystickEventSystem = (world) => {
     eventQuery(world).forEach(eid => {
         _components_virtual_joystick__WEBPACK_IMPORTED_MODULE_1__.VirtualJoystickEventProxy.get(eid).free();
         (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.removeComponent)(world, _components_virtual_joystick__WEBPACK_IMPORTED_MODULE_1__.VirtualJoystickEvent, eid);
+    });
+};
+
+
+/***/ }),
+
+/***/ "../addons/src/systems/webxr_controller_interaction_trigger.ts":
+/*!*********************************************************************!*\
+  !*** ../addons/src/systems/webxr_controller_interaction_trigger.ts ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   webxrControllerInteractionTriggerSystem: () => (/* binding */ webxrControllerInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/webxr.ts");
+
+
+const firstInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEvent]);
+const secondInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEvent]);
+const webxrControllerInteractionTriggerSystem = (world) => {
+    firstInteractableQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventProxy.get(eid).events) {
+            if (e.controller !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerType.First) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+    secondInteractableQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventProxy.get(eid).events) {
+            if (e.controller !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerType.Second) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionLeaveEvent, eid);
+            }
+        }
     });
 };
 
@@ -7186,45 +7321,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tiny_web_metaverse_state_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tiny-web-metaverse/state_client */ "../state_client/dist/state_client.bundle.js");
 /* harmony import */ var _tiny_web_metaverse_stream_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/stream_client */ "../stream_client/dist/stream_client.bundle.js");
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common */ "../client/src/common.ts");
-/* harmony import */ var _components_audio_effect__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/audio_effect */ "../client/src/components/audio_effect.ts");
-/* harmony import */ var _components_canvas__WEBPACK_IMPORTED_MODULE_77__ = __webpack_require__(/*! ./components/canvas */ "../client/src/components/canvas.ts");
-/* harmony import */ var _components_camera__WEBPACK_IMPORTED_MODULE_81__ = __webpack_require__(/*! ./components/camera */ "../client/src/components/camera.ts");
-/* harmony import */ var _components_mouse__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/mouse */ "../client/src/components/mouse.ts");
-/* harmony import */ var _components_network__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/network */ "../client/src/components/network.ts");
-/* harmony import */ var _components_null__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/null */ "../client/src/components/null.ts");
-/* harmony import */ var _components_peer__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/peer */ "../client/src/components/peer.ts");
-/* harmony import */ var _components_pointer__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/pointer */ "../client/src/components/pointer.ts");
-/* harmony import */ var _components_prefab__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/prefab */ "../client/src/components/prefab.ts");
-/* harmony import */ var _components_ray__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/ray */ "../client/src/components/ray.ts");
-/* harmony import */ var _components_renderer__WEBPACK_IMPORTED_MODULE_78__ = __webpack_require__(/*! ./components/renderer */ "../client/src/components/renderer.ts");
-/* harmony import */ var _components_room_id__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/room_id */ "../client/src/components/room_id.ts");
-/* harmony import */ var _components_scene__WEBPACK_IMPORTED_MODULE_80__ = __webpack_require__(/*! ./components/scene */ "../client/src/components/scene.ts");
-/* harmony import */ var _components_serializer__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/serializer */ "../client/src/components/serializer.ts");
-/* harmony import */ var _components_stream__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/stream */ "../client/src/components/stream.ts");
-/* harmony import */ var _components_time__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/time */ "../client/src/components/time.ts");
-/* harmony import */ var _components_timestamp__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/timestamp */ "../client/src/components/timestamp.ts");
-/* harmony import */ var _components_touch__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/touch */ "../client/src/components/touch.ts");
-/* harmony import */ var _components_user_id__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/user_id */ "../client/src/components/user_id.ts");
-/* harmony import */ var _components_webxr__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/webxr */ "../client/src/components/webxr.ts");
-/* harmony import */ var _components_window_resize__WEBPACK_IMPORTED_MODULE_79__ = __webpack_require__(/*! ./components/window_resize */ "../client/src/components/window_resize.ts");
-/* harmony import */ var _serializations_transform__WEBPACK_IMPORTED_MODULE_83__ = __webpack_require__(/*! ./serializations/transform */ "../client/src/serializations/transform.ts");
-/* harmony import */ var _serializations_mixer_animation__WEBPACK_IMPORTED_MODULE_84__ = __webpack_require__(/*! ./serializations/mixer_animation */ "../client/src/serializations/mixer_animation.ts");
+/* harmony import */ var _components_audio_effect__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/audio_effect */ "../client/src/components/audio_effect.ts");
+/* harmony import */ var _components_canvas__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/canvas */ "../client/src/components/canvas.ts");
+/* harmony import */ var _components_camera__WEBPACK_IMPORTED_MODULE_79__ = __webpack_require__(/*! ./components/camera */ "../client/src/components/camera.ts");
+/* harmony import */ var _components_mouse__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/mouse */ "../client/src/components/mouse.ts");
+/* harmony import */ var _components_network__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/network */ "../client/src/components/network.ts");
+/* harmony import */ var _components_null__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./components/null */ "../client/src/components/null.ts");
+/* harmony import */ var _components_peer__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./components/peer */ "../client/src/components/peer.ts");
+/* harmony import */ var _components_pointer__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/pointer */ "../client/src/components/pointer.ts");
+/* harmony import */ var _components_prefab__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/prefab */ "../client/src/components/prefab.ts");
+/* harmony import */ var _components_ray__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/ray */ "../client/src/components/ray.ts");
+/* harmony import */ var _components_renderer__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/renderer */ "../client/src/components/renderer.ts");
+/* harmony import */ var _components_room_id__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/room_id */ "../client/src/components/room_id.ts");
+/* harmony import */ var _components_scene__WEBPACK_IMPORTED_MODULE_78__ = __webpack_require__(/*! ./components/scene */ "../client/src/components/scene.ts");
+/* harmony import */ var _components_serializer__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/serializer */ "../client/src/components/serializer.ts");
+/* harmony import */ var _components_stream__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/stream */ "../client/src/components/stream.ts");
+/* harmony import */ var _components_time__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/time */ "../client/src/components/time.ts");
+/* harmony import */ var _components_timestamp__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/timestamp */ "../client/src/components/timestamp.ts");
+/* harmony import */ var _components_touch__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/touch */ "../client/src/components/touch.ts");
+/* harmony import */ var _components_user_id__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/user_id */ "../client/src/components/user_id.ts");
+/* harmony import */ var _components_webxr__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/webxr */ "../client/src/components/webxr.ts");
+/* harmony import */ var _components_window_resize__WEBPACK_IMPORTED_MODULE_77__ = __webpack_require__(/*! ./components/window_resize */ "../client/src/components/window_resize.ts");
+/* harmony import */ var _serializations_transform__WEBPACK_IMPORTED_MODULE_81__ = __webpack_require__(/*! ./serializations/transform */ "../client/src/serializations/transform.ts");
+/* harmony import */ var _serializations_mixer_animation__WEBPACK_IMPORTED_MODULE_82__ = __webpack_require__(/*! ./serializations/mixer_animation */ "../client/src/serializations/mixer_animation.ts");
 /* harmony import */ var _systems_audio_context__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./systems/audio_context */ "../client/src/systems/audio_context.ts");
 /* harmony import */ var _systems_bvh__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./systems/bvh */ "../client/src/systems/bvh.ts");
 /* harmony import */ var _systems_canvas__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./systems/canvas */ "../client/src/systems/canvas.ts");
 /* harmony import */ var _systems_entity_object3d__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./systems/entity_object3d */ "../client/src/systems/entity_object3d.ts");
-/* harmony import */ var _systems_entity_removal__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./systems/entity_removal */ "../client/src/systems/entity_removal.ts");
-/* harmony import */ var _systems_fps_camera__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./systems/fps_camera */ "../client/src/systems/fps_camera.ts");
+/* harmony import */ var _systems_entity_removal__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./systems/entity_removal */ "../client/src/systems/entity_removal.ts");
+/* harmony import */ var _systems_fps_camera__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./systems/fps_camera */ "../client/src/systems/fps_camera.ts");
 /* harmony import */ var _systems_gltf__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./systems/gltf */ "../client/src/systems/gltf.ts");
 /* harmony import */ var _systems_gltf_asset_load__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./systems/gltf_asset_load */ "../client/src/systems/gltf_asset_load.ts");
 /* harmony import */ var _systems_gltf_scene_load__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./systems/gltf_scene_load */ "../client/src/systems/gltf_scene_load.ts");
-/* harmony import */ var _systems_grab__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./systems/grab */ "../client/src/systems/grab.ts");
-/* harmony import */ var _systems_grab_ray_track__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./systems/grab_ray_track */ "../client/src/systems/grab_ray_track.ts");
-/* harmony import */ var _systems_interaction__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./systems/interaction */ "../client/src/systems/interaction.ts");
+/* harmony import */ var _systems_grab__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./systems/grab */ "../client/src/systems/grab.ts");
+/* harmony import */ var _systems_grab_ray_track__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./systems/grab_ray_track */ "../client/src/systems/grab_ray_track.ts");
+/* harmony import */ var _systems_interaction__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./systems/interaction */ "../client/src/systems/interaction.ts");
 /* harmony import */ var _systems_keyboard_event__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./systems/keyboard_event */ "../client/src/systems/keyboard_event.ts");
 /* harmony import */ var _systems_lazily_activate_animation__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./systems/lazily_activate_animation */ "../client/src/systems/lazily_activate_animation.ts");
-/* harmony import */ var _systems_linear_move__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./systems/linear_move */ "../client/src/systems/linear_move.ts");
-/* harmony import */ var _systems_linear_transform__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./systems/linear_transform */ "../client/src/systems/linear_transform.ts");
+/* harmony import */ var _systems_linear_move__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./systems/linear_move */ "../client/src/systems/linear_move.ts");
+/* harmony import */ var _systems_linear_transform__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./systems/linear_transform */ "../client/src/systems/linear_transform.ts");
 /* harmony import */ var _systems_media_device__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./systems/media_device */ "../client/src/systems/media_device.ts");
 /* harmony import */ var _systems_message_event__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./systems/message_event */ "../client/src/systems/message_event.ts");
 /* harmony import */ var _systems_mixer_animation__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./systems/mixer_animation */ "../client/src/systems/mixer_animation.ts");
@@ -7232,45 +7367,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _systems_mouse_move_event__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./systems/mouse_move_event */ "../client/src/systems/mouse_move_event.ts");
 /* harmony import */ var _systems_mouse_position_to_pointer__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./systems/mouse_position_to_pointer */ "../client/src/systems/mouse_position_to_pointer.ts");
 /* harmony import */ var _systems_mouse_position_track__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./systems/mouse_position_track */ "../client/src/systems/mouse_position_track.ts");
-/* harmony import */ var _systems_mouse_interaction_trigger__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./systems/mouse_interaction_trigger */ "../client/src/systems/mouse_interaction_trigger.ts");
 /* harmony import */ var _systems_network_event__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./systems/network_event */ "../client/src/systems/network_event.ts");
-/* harmony import */ var _systems_network_send__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./systems/network_send */ "../client/src/systems/network_send.ts");
+/* harmony import */ var _systems_network_send__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./systems/network_send */ "../client/src/systems/network_send.ts");
 /* harmony import */ var _systems_networked__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./systems/networked */ "../client/src/systems/networked.ts");
 /* harmony import */ var _systems_networked_entity__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./systems/networked_entity */ "../client/src/systems/networked_entity.ts");
 /* harmony import */ var _systems_peer__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./systems/peer */ "../client/src/systems/peer.ts");
 /* harmony import */ var _systems_perspective_camera__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./systems/perspective_camera */ "../client/src/systems/perspective_camera.ts");
-/* harmony import */ var _systems_positional_audio__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./systems/positional_audio */ "../client/src/systems/positional_audio.ts");
+/* harmony import */ var _systems_positional_audio__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./systems/positional_audio */ "../client/src/systems/positional_audio.ts");
 /* harmony import */ var _systems_prefab__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./systems/prefab */ "../client/src/systems/prefab.ts");
 /* harmony import */ var _systems_ray__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./systems/ray */ "../client/src/systems/ray.ts");
-/* harmony import */ var _systems_raycast__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./systems/raycast */ "../client/src/systems/raycast.ts");
-/* harmony import */ var _systems_render__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./systems/render */ "../client/src/systems/render.ts");
+/* harmony import */ var _systems_raycast__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./systems/raycast */ "../client/src/systems/raycast.ts");
+/* harmony import */ var _systems_render__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./systems/render */ "../client/src/systems/render.ts");
 /* harmony import */ var _systems_renderer__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./systems/renderer */ "../client/src/systems/renderer.ts");
 /* harmony import */ var _systems_scene__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./systems/scene */ "../client/src/systems/scene.ts");
 /* harmony import */ var _systems_scene_environment_map_load__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./systems/scene_environment_map_load */ "../client/src/systems/scene_environment_map_load.ts");
-/* harmony import */ var _systems_select__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./systems/select */ "../client/src/systems/select.ts");
+/* harmony import */ var _systems_select__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./systems/select */ "../client/src/systems/select.ts");
 /* harmony import */ var _systems_stream_connection__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./systems/stream_connection */ "../client/src/systems/stream_connection.ts");
 /* harmony import */ var _systems_stream_remote_peers__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./systems/stream_remote_peers */ "../client/src/systems/stream_remote_peers.ts");
 /* harmony import */ var _systems_stream_event__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./systems/stream_event */ "../client/src/systems/stream_event.ts");
 /* harmony import */ var _systems_time__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./systems/time */ "../client/src/systems/time.ts");
 /* harmony import */ var _systems_touch_event__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./systems/touch_event */ "../client/src/systems/touch_event.ts");
-/* harmony import */ var _systems_touch_interaction_trigger__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./systems/touch_interaction_trigger */ "../client/src/systems/touch_interaction_trigger.ts");
 /* harmony import */ var _systems_touch_move_event__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./systems/touch_move_event */ "../client/src/systems/touch_move_event.ts");
 /* harmony import */ var _systems_touch_position_to_pointer__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./systems/touch_position_to_pointer */ "../client/src/systems/touch_position_to_pointer.ts");
 /* harmony import */ var _systems_touch_position_track__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./systems/touch_position_track */ "../client/src/systems/touch_position_track.ts");
-/* harmony import */ var _systems_transform__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./systems/transform */ "../client/src/systems/transform.ts");
-/* harmony import */ var _systems_update_matrices__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./systems/update_matrices */ "../client/src/systems/update_matrices.ts");
+/* harmony import */ var _systems_transform__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./systems/transform */ "../client/src/systems/transform.ts");
+/* harmony import */ var _systems_update_matrices__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./systems/update_matrices */ "../client/src/systems/update_matrices.ts");
 /* harmony import */ var _systems_webxr_camera__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./systems/webxr_camera */ "../client/src/systems/webxr_camera.ts");
 /* harmony import */ var _systems_webxr_controller__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./systems/webxr_controller */ "../client/src/systems/webxr_controller.ts");
 /* harmony import */ var _systems_webxr_ray__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./systems/webxr_ray */ "../client/src/systems/webxr_ray.ts");
 /* harmony import */ var _systems_webxr_session__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./systems/webxr_session */ "../client/src/systems/webxr_session.ts");
 /* harmony import */ var _systems_window_resize_event__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./systems/window_resize_event */ "../client/src/systems/window_resize_event.ts");
-/* harmony import */ var _utils_bitecs_three__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./utils/bitecs_three */ "../client/src/utils/bitecs_three.ts");
-/* harmony import */ var _utils_entity_object3d__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./utils/entity_object3d */ "../client/src/utils/entity_object3d.ts");
-/* harmony import */ var _utils_serializer__WEBPACK_IMPORTED_MODULE_82__ = __webpack_require__(/*! ./utils/serializer */ "../client/src/utils/serializer.ts");
-/* harmony import */ var _utils_timestamp__WEBPACK_IMPORTED_MODULE_86__ = __webpack_require__(/*! ./utils/timestamp */ "../client/src/utils/timestamp.ts");
-/* harmony import */ var _utils_webxr__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! ./utils/webxr */ "../client/src/utils/webxr.ts");
-
-
+/* harmony import */ var _utils_bitecs_three__WEBPACK_IMPORTED_MODULE_83__ = __webpack_require__(/*! ./utils/bitecs_three */ "../client/src/utils/bitecs_three.ts");
+/* harmony import */ var _utils_entity_object3d__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./utils/entity_object3d */ "../client/src/utils/entity_object3d.ts");
+/* harmony import */ var _utils_serializer__WEBPACK_IMPORTED_MODULE_80__ = __webpack_require__(/*! ./utils/serializer */ "../client/src/utils/serializer.ts");
+/* harmony import */ var _utils_timestamp__WEBPACK_IMPORTED_MODULE_84__ = __webpack_require__(/*! ./utils/timestamp */ "../client/src/utils/timestamp.ts");
+/* harmony import */ var _utils_webxr__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./utils/webxr */ "../client/src/utils/webxr.ts");
 
 
 
@@ -7423,198 +7554,196 @@ class App {
         this.registerSystem(_systems_audio_context__WEBPACK_IMPORTED_MODULE_41__.resumeAudioContextSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.Setup);
         this.registerSystem(_systems_lazily_activate_animation__WEBPACK_IMPORTED_MODULE_42__.lazilyActivateAnimationSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.Setup + 1);
         this.registerSystem(_systems_bvh__WEBPACK_IMPORTED_MODULE_43__.generateBVHSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.Setup + 1);
-        this.registerSystem(_systems_linear_move__WEBPACK_IMPORTED_MODULE_44__.linearMoveSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_linear_transform__WEBPACK_IMPORTED_MODULE_45__.linearTransformSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_raycast__WEBPACK_IMPORTED_MODULE_46__.raycastSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_mouse_interaction_trigger__WEBPACK_IMPORTED_MODULE_47__.mouseInteractionTriggerSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_touch_interaction_trigger__WEBPACK_IMPORTED_MODULE_48__.touchInteractionTriggerSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_interaction__WEBPACK_IMPORTED_MODULE_49__.interactSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_select__WEBPACK_IMPORTED_MODULE_50__.selectSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_grab__WEBPACK_IMPORTED_MODULE_51__.grabSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_grab_ray_track__WEBPACK_IMPORTED_MODULE_52__.grabbedObjectsRayTrackSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
-        this.registerSystem(_systems_fps_camera__WEBPACK_IMPORTED_MODULE_53__.fpsCameraSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate - 1);
-        this.registerSystem(_systems_network_send__WEBPACK_IMPORTED_MODULE_54__.networkSendSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate - 1);
-        this.registerSystem(_systems_update_matrices__WEBPACK_IMPORTED_MODULE_55__.updateMatricesSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate);
-        this.registerSystem(_systems_positional_audio__WEBPACK_IMPORTED_MODULE_56__.positionalAudioSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate + 1);
-        this.registerSystem(_systems_render__WEBPACK_IMPORTED_MODULE_57__.renderSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.Render);
+        this.registerSystem(_systems_raycast__WEBPACK_IMPORTED_MODULE_44__.raycastSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_interaction__WEBPACK_IMPORTED_MODULE_45__.interactSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_linear_move__WEBPACK_IMPORTED_MODULE_46__.linearMoveSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_linear_transform__WEBPACK_IMPORTED_MODULE_47__.linearTransformSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_select__WEBPACK_IMPORTED_MODULE_48__.selectSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_grab__WEBPACK_IMPORTED_MODULE_49__.grabSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_grab_ray_track__WEBPACK_IMPORTED_MODULE_50__.grabbedObjectsRayTrackSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate);
+        this.registerSystem(_systems_fps_camera__WEBPACK_IMPORTED_MODULE_51__.fpsCameraSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate - 1);
+        this.registerSystem(_systems_network_send__WEBPACK_IMPORTED_MODULE_52__.networkSendSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate - 1);
+        this.registerSystem(_systems_update_matrices__WEBPACK_IMPORTED_MODULE_53__.updateMatricesSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate);
+        this.registerSystem(_systems_positional_audio__WEBPACK_IMPORTED_MODULE_54__.positionalAudioSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.MatricesUpdate + 1);
+        this.registerSystem(_systems_render__WEBPACK_IMPORTED_MODULE_55__.renderSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.Render);
         this.registerSystem(_systems_message_event__WEBPACK_IMPORTED_MODULE_16__.messageSendSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown - 1);
         this.registerSystem(_systems_keyboard_event__WEBPACK_IMPORTED_MODULE_7__.keyEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_mouse_move_event__WEBPACK_IMPORTED_MODULE_8__.mouseMoveEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_mouse_button_event__WEBPACK_IMPORTED_MODULE_9__.mouseButtonEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_touch_move_event__WEBPACK_IMPORTED_MODULE_10__.touchMoveEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_touch_event__WEBPACK_IMPORTED_MODULE_11__.touchEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
-        this.registerSystem(_systems_select__WEBPACK_IMPORTED_MODULE_50__.selectedEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
+        this.registerSystem(_systems_select__WEBPACK_IMPORTED_MODULE_48__.selectedEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_media_device__WEBPACK_IMPORTED_MODULE_6__.micEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_window_resize_event__WEBPACK_IMPORTED_MODULE_12__.windowResizeEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_network_event__WEBPACK_IMPORTED_MODULE_13__.networkEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_stream_event__WEBPACK_IMPORTED_MODULE_14__.streamEventClearSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
-        this.registerSystem(_systems_raycast__WEBPACK_IMPORTED_MODULE_46__.clearRaycastedSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
-        this.registerSystem(_systems_transform__WEBPACK_IMPORTED_MODULE_58__.clearTransformUpdatedSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
+        this.registerSystem(_systems_raycast__WEBPACK_IMPORTED_MODULE_44__.clearRaycastedSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
+        this.registerSystem(_systems_transform__WEBPACK_IMPORTED_MODULE_56__.clearTransformUpdatedSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_mixer_animation__WEBPACK_IMPORTED_MODULE_37__.clearActiveAnimationsUpdatedSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
-        this.registerSystem(_systems_interaction__WEBPACK_IMPORTED_MODULE_49__.clearInteractionSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
+        this.registerSystem(_systems_interaction__WEBPACK_IMPORTED_MODULE_45__.clearInteractionSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_message_event__WEBPACK_IMPORTED_MODULE_16__.clearMessageEventSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_webxr_controller__WEBPACK_IMPORTED_MODULE_24__.clearWebXRControllerEventSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
         this.registerSystem(_systems_webxr_session__WEBPACK_IMPORTED_MODULE_20__.clearWebXRSessionEventSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown);
-        this.registerSystem(_systems_entity_removal__WEBPACK_IMPORTED_MODULE_59__.entityRemovalSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown + 10);
+        this.registerSystem(_systems_entity_removal__WEBPACK_IMPORTED_MODULE_57__.entityRemovalSystem, _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.TearDown + 10);
         // Entity 0 for null entity
         const nullEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_null__WEBPACK_IMPORTED_MODULE_60__.NullComponent, nullEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_null__WEBPACK_IMPORTED_MODULE_58__.NullComponent, nullEid);
         const timestampEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_timestamp__WEBPACK_IMPORTED_MODULE_61__.Timestamp, timestampEid);
-        _components_timestamp__WEBPACK_IMPORTED_MODULE_61__.TimestampProxy.get(timestampEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_timestamp__WEBPACK_IMPORTED_MODULE_59__.Timestamp, timestampEid);
+        _components_timestamp__WEBPACK_IMPORTED_MODULE_59__.TimestampProxy.get(timestampEid).allocate();
         const timeEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_time__WEBPACK_IMPORTED_MODULE_62__.Time, timeEid);
-        _components_time__WEBPACK_IMPORTED_MODULE_62__.TimeProxy.get(timeEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_time__WEBPACK_IMPORTED_MODULE_60__.Time, timeEid);
+        _components_time__WEBPACK_IMPORTED_MODULE_60__.TimeProxy.get(timeEid).allocate();
         const xrFrameEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRFrameComponent, xrFrameEid);
-        _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRFrameProxy.get(xrFrameEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRFrameComponent, xrFrameEid);
+        _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRFrameProxy.get(xrFrameEid).allocate();
         const xrSessionEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRSessionComponent, xrSessionEid);
-        _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRSessionProxy.get(xrSessionEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRSessionComponent, xrSessionEid);
+        _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRSessionProxy.get(xrSessionEid).allocate();
         const webxrSessionManagerEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.WebXRSessionManager, webxrSessionManagerEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.WebXRSessionEventListener, webxrSessionManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.WebXRSessionManager, webxrSessionManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.WebXRSessionEventListener, webxrSessionManagerEid);
         // Should we get controller and create entity when entering immersive mode?
         const xrController1 = renderer.xr.getController(0);
         const xrController1Eid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRController, xrController1Eid);
-        _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerProxy.get(xrController1Eid).allocate(xrController1);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.FirstXRController, xrController1Eid);
-        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_64__.addObject3D)(this.world, xrController1, xrController1Eid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerConnectionEventListener, xrController1Eid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerSelectEventListener, xrController1Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRController, xrController1Eid);
+        _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerProxy.get(xrController1Eid).allocate(xrController1);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.FirstXRController, xrController1Eid);
+        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_62__.addObject3D)(this.world, xrController1, xrController1Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerConnectionEventListener, xrController1Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerSelectEventListener, xrController1Eid);
         const xrController2 = renderer.xr.getController(1);
         const xrController2Eid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRController, xrController2Eid);
-        _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerProxy.get(xrController2Eid).allocate(xrController2);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.SecondXRController, xrController2Eid);
-        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_64__.addObject3D)(this.world, xrController2, xrController2Eid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerConnectionEventListener, xrController2Eid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerSelectEventListener, xrController2Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRController, xrController2Eid);
+        _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerProxy.get(xrController2Eid).allocate(xrController2);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.SecondXRController, xrController2Eid);
+        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_62__.addObject3D)(this.world, xrController2, xrController2Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerConnectionEventListener, xrController2Eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerSelectEventListener, xrController2Eid);
         const audioContext = new AudioContext();
         const audioContextEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_audio_effect__WEBPACK_IMPORTED_MODULE_65__.AudioContextComponent, audioContextEid);
-        _components_audio_effect__WEBPACK_IMPORTED_MODULE_65__.AudioContextProxy.get(audioContextEid).allocate(audioContext);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_audio_effect__WEBPACK_IMPORTED_MODULE_63__.AudioContextComponent, audioContextEid);
+        _components_audio_effect__WEBPACK_IMPORTED_MODULE_63__.AudioContextProxy.get(audioContextEid).allocate(audioContext);
         if (audioContext.state === 'suspended') {
-            (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_audio_effect__WEBPACK_IMPORTED_MODULE_65__.AudioContextSuspended, audioContextEid);
+            (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_audio_effect__WEBPACK_IMPORTED_MODULE_63__.AudioContextSuspended, audioContextEid);
         }
         const peersEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_peer__WEBPACK_IMPORTED_MODULE_66__.Peers, peersEid);
-        _components_peer__WEBPACK_IMPORTED_MODULE_66__.PeersProxy.get(peersEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_peer__WEBPACK_IMPORTED_MODULE_64__.Peers, peersEid);
+        _components_peer__WEBPACK_IMPORTED_MODULE_64__.PeersProxy.get(peersEid).allocate();
         const prefabsEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_prefab__WEBPACK_IMPORTED_MODULE_67__.Prefabs, prefabsEid);
-        _components_prefab__WEBPACK_IMPORTED_MODULE_67__.PrefabsProxy.get(prefabsEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_prefab__WEBPACK_IMPORTED_MODULE_65__.Prefabs, prefabsEid);
+        _components_prefab__WEBPACK_IMPORTED_MODULE_65__.PrefabsProxy.get(prefabsEid).allocate();
         const serializersEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_serializer__WEBPACK_IMPORTED_MODULE_68__.Serializers, serializersEid);
-        _components_serializer__WEBPACK_IMPORTED_MODULE_68__.SerializersProxy.get(serializersEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_serializer__WEBPACK_IMPORTED_MODULE_66__.Serializers, serializersEid);
+        _components_serializer__WEBPACK_IMPORTED_MODULE_66__.SerializersProxy.get(serializersEid).allocate();
         const componentKeysEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_serializer__WEBPACK_IMPORTED_MODULE_68__.ComponentKeys, componentKeysEid);
-        _components_serializer__WEBPACK_IMPORTED_MODULE_68__.ComponentKeysProxy.get(componentKeysEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_serializer__WEBPACK_IMPORTED_MODULE_66__.ComponentKeys, componentKeysEid);
+        _components_serializer__WEBPACK_IMPORTED_MODULE_66__.ComponentKeysProxy.get(componentKeysEid).allocate();
         const roomIdEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_room_id__WEBPACK_IMPORTED_MODULE_69__.RoomId, roomIdEid);
-        _components_room_id__WEBPACK_IMPORTED_MODULE_69__.RoomIdProxy.get(roomIdEid).allocate(roomId);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_room_id__WEBPACK_IMPORTED_MODULE_67__.RoomId, roomIdEid);
+        _components_room_id__WEBPACK_IMPORTED_MODULE_67__.RoomIdProxy.get(roomIdEid).allocate(roomId);
         const userIdEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_user_id__WEBPACK_IMPORTED_MODULE_70__.UserId, userIdEid);
-        _components_user_id__WEBPACK_IMPORTED_MODULE_70__.UserIdProxy.get(userIdEid).allocate(userId);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.Local, userIdEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_user_id__WEBPACK_IMPORTED_MODULE_68__.UserId, userIdEid);
+        _components_user_id__WEBPACK_IMPORTED_MODULE_68__.UserIdProxy.get(userIdEid).allocate(userId);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.Local, userIdEid);
         const streamRemotePeersEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamRemotePeers, streamRemotePeersEid);
-        _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamRemotePeersProxy.get(streamRemotePeersEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamRemotePeers, streamRemotePeersEid);
+        _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamRemotePeersProxy.get(streamRemotePeersEid).allocate();
         const streamRemotePeerRegisterEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamRemotePeerRegister, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.ConnectedStreamEventListener, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.NewPeerStreamEventListener, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.JoinedPeerStreamEventListener, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.LeftPeerStreamEventListener, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.ExitedPeerStreamEventListener, streamRemotePeerRegisterEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.NewConsumerStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamRemotePeerRegister, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.ConnectedStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.NewPeerStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.JoinedPeerStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.LeftPeerStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.ExitedPeerStreamEventListener, streamRemotePeerRegisterEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.NewConsumerStreamEventListener, streamRemotePeerRegisterEid);
         const networkAdapterEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.StateClient, networkAdapterEid);
-        _components_network__WEBPACK_IMPORTED_MODULE_71__.StateClientProxy.get(networkAdapterEid).allocate(this.networkAdapter);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.StateClient, networkAdapterEid);
+        _components_network__WEBPACK_IMPORTED_MODULE_69__.StateClientProxy.get(networkAdapterEid).allocate(this.networkAdapter);
         const streamClientEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamClient, streamClientEid);
-        _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamClientProxy.get(streamClientEid).allocate(this.streamAdapter);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamClient, streamClientEid);
+        _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamClientProxy.get(streamClientEid).allocate(this.streamAdapter);
         const networkEventReceiverEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkEventReceiver, networkEventReceiverEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkEventReceiver, networkEventReceiverEid);
         const networkEventSenderEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkEventSender, networkEventSenderEid);
-        _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkEventSender.lastSendTime[networkEventSenderEid] = 0.0;
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkEventSender, networkEventSenderEid);
+        _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkEventSender.lastSendTime[networkEventSenderEid] = 0.0;
         const streamEventReceiverEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_72__.StreamEventReceiver, streamEventReceiverEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_stream__WEBPACK_IMPORTED_MODULE_70__.StreamEventReceiver, streamEventReceiverEid);
         const networkedEntityManagerEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedEntityManager, networkedEntityManagerEid);
-        _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedEntityManagerProxy.get(networkedEntityManagerEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.ComponentNetworkEventListener, networkedEntityManagerEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.EntityNetworkEventListener, networkedEntityManagerEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.UserNetworkEventListener, networkedEntityManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedEntityManager, networkedEntityManagerEid);
+        _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedEntityManagerProxy.get(networkedEntityManagerEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.ComponentNetworkEventListener, networkedEntityManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.EntityNetworkEventListener, networkedEntityManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.UserNetworkEventListener, networkedEntityManagerEid);
         const peerManagerEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_peer__WEBPACK_IMPORTED_MODULE_66__.PeersManager, peerManagerEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_71__.UserNetworkEventListener, peerManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_peer__WEBPACK_IMPORTED_MODULE_64__.PeersManager, peerManagerEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_network__WEBPACK_IMPORTED_MODULE_69__.UserNetworkEventListener, peerManagerEid);
         const firstRayEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_73__.RayComponent, firstRayEid);
-        _components_ray__WEBPACK_IMPORTED_MODULE_73__.RayProxy.get(firstRayEid).allocate(new three__WEBPACK_IMPORTED_MODULE_2__.Ray());
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_73__.FirstRay, firstRayEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_73__.ActiveRay, firstRayEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.WebXRSessionEventListener, firstRayEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerConnectionEventListener, firstRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_71__.RayComponent, firstRayEid);
+        _components_ray__WEBPACK_IMPORTED_MODULE_71__.RayProxy.get(firstRayEid).allocate(new three__WEBPACK_IMPORTED_MODULE_2__.Ray());
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_71__.FirstRay, firstRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_71__.ActiveRay, firstRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.WebXRSessionEventListener, firstRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerConnectionEventListener, firstRayEid);
         // The second ray can be activated in VR/AR mode
         const secondRayEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_73__.RayComponent, secondRayEid);
-        _components_ray__WEBPACK_IMPORTED_MODULE_73__.RayProxy.get(secondRayEid).allocate(new three__WEBPACK_IMPORTED_MODULE_2__.Ray());
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_73__.SecondRay, secondRayEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.WebXRSessionEventListener, secondRayEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_63__.XRControllerConnectionEventListener, secondRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_71__.RayComponent, secondRayEid);
+        _components_ray__WEBPACK_IMPORTED_MODULE_71__.RayProxy.get(secondRayEid).allocate(new three__WEBPACK_IMPORTED_MODULE_2__.Ray());
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_ray__WEBPACK_IMPORTED_MODULE_71__.SecondRay, secondRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.WebXRSessionEventListener, secondRayEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_webxr__WEBPACK_IMPORTED_MODULE_61__.XRControllerConnectionEventListener, secondRayEid);
         const pointerEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_pointer__WEBPACK_IMPORTED_MODULE_74__.Pointer, pointerEid);
-        _components_pointer__WEBPACK_IMPORTED_MODULE_74__.PointerProxy.get(pointerEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_pointer__WEBPACK_IMPORTED_MODULE_72__.Pointer, pointerEid);
+        _components_pointer__WEBPACK_IMPORTED_MODULE_72__.PointerProxy.get(pointerEid).allocate();
         const currentMousePositionEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_75__.MousePosition, currentMousePositionEid);
-        _components_mouse__WEBPACK_IMPORTED_MODULE_75__.MousePositionProxy.get(currentMousePositionEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_75__.CurrentMousePosition, currentMousePositionEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_75__.MouseMoveEventListener, currentMousePositionEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_73__.MousePosition, currentMousePositionEid);
+        _components_mouse__WEBPACK_IMPORTED_MODULE_73__.MousePositionProxy.get(currentMousePositionEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_73__.CurrentMousePosition, currentMousePositionEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_73__.MouseMoveEventListener, currentMousePositionEid);
         const previousMousePositionEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_75__.MousePosition, previousMousePositionEid);
-        _components_mouse__WEBPACK_IMPORTED_MODULE_75__.MousePositionProxy.get(previousMousePositionEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_75__.PreviousMousePosition, previousMousePositionEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_73__.MousePosition, previousMousePositionEid);
+        _components_mouse__WEBPACK_IMPORTED_MODULE_73__.MousePositionProxy.get(previousMousePositionEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_mouse__WEBPACK_IMPORTED_MODULE_73__.PreviousMousePosition, previousMousePositionEid);
         const touchPositionEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_76__.TouchPosition, touchPositionEid);
-        _components_touch__WEBPACK_IMPORTED_MODULE_76__.TouchPositionProxy.get(touchPositionEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_76__.TouchEventListener, touchPositionEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_76__.TouchMoveEventListener, touchPositionEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_74__.TouchPosition, touchPositionEid);
+        _components_touch__WEBPACK_IMPORTED_MODULE_74__.TouchPositionProxy.get(touchPositionEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_74__.TouchEventListener, touchPositionEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_touch__WEBPACK_IMPORTED_MODULE_74__.TouchMoveEventListener, touchPositionEid);
         const canvasEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_canvas__WEBPACK_IMPORTED_MODULE_77__.Canvas, canvasEid);
-        _components_canvas__WEBPACK_IMPORTED_MODULE_77__.CanvasProxy.get(canvasEid).allocate(canvas);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_canvas__WEBPACK_IMPORTED_MODULE_75__.Canvas, canvasEid);
+        _components_canvas__WEBPACK_IMPORTED_MODULE_75__.CanvasProxy.get(canvasEid).allocate(canvas);
         const rendererEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_renderer__WEBPACK_IMPORTED_MODULE_78__.Renderer, rendererEid);
-        _components_renderer__WEBPACK_IMPORTED_MODULE_78__.RendererProxy.get(rendererEid).allocate(renderer);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_79__.WindowSize, rendererEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_79__.WindowResizeEventListener, rendererEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_renderer__WEBPACK_IMPORTED_MODULE_76__.Renderer, rendererEid);
+        _components_renderer__WEBPACK_IMPORTED_MODULE_76__.RendererProxy.get(rendererEid).allocate(renderer);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_77__.WindowSize, rendererEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_77__.WindowResizeEventListener, rendererEid);
         const sceneEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_scene__WEBPACK_IMPORTED_MODULE_80__.SceneComponent, sceneEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_scene__WEBPACK_IMPORTED_MODULE_78__.SceneComponent, sceneEid);
         // TODO: Configurable Scene
         const scene = new three__WEBPACK_IMPORTED_MODULE_2__.Scene();
         // Matrices are updated in updateMatricesSystem.
         scene.matrixWorldAutoUpdate = false;
         scene.background = new three__WEBPACK_IMPORTED_MODULE_2__.Color(0xffffff);
-        _components_scene__WEBPACK_IMPORTED_MODULE_80__.SceneProxy.get(sceneEid).allocate(scene);
+        _components_scene__WEBPACK_IMPORTED_MODULE_78__.SceneProxy.get(sceneEid).allocate(scene);
         const cameraEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(this.world);
         // TODO: Configurable
         const camera = new three__WEBPACK_IMPORTED_MODULE_2__.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.001, 2000.0);
         // Matrices are updated in updateMatricesSystem.
         camera.matrixWorldAutoUpdate = false;
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_81__.PerspectiveCameraComponent, cameraEid);
-        _components_camera__WEBPACK_IMPORTED_MODULE_81__.PerspectiveCameraProxy.get(cameraEid).allocate(camera);
-        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_64__.addObject3D)(this.world, camera, cameraEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_81__.FpsCamera, cameraEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_scene__WEBPACK_IMPORTED_MODULE_80__.InScene, cameraEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_81__.SceneCamera, cameraEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_79__.WindowSize, cameraEid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_79__.WindowResizeEventListener, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_79__.PerspectiveCameraComponent, cameraEid);
+        _components_camera__WEBPACK_IMPORTED_MODULE_79__.PerspectiveCameraProxy.get(cameraEid).allocate(camera);
+        (0,_utils_entity_object3d__WEBPACK_IMPORTED_MODULE_62__.addObject3D)(this.world, camera, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_79__.FpsCamera, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_scene__WEBPACK_IMPORTED_MODULE_78__.InScene, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_camera__WEBPACK_IMPORTED_MODULE_79__.SceneCamera, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_77__.WindowSize, cameraEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(this.world, _components_window_resize__WEBPACK_IMPORTED_MODULE_77__.WindowResizeEventListener, cameraEid);
         // Serializers
-        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_82__.registerSerializers)(this.world, 'position', _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedPosition, _serializations_transform__WEBPACK_IMPORTED_MODULE_83__.positionSerializers);
-        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_82__.registerSerializers)(this.world, 'quaternion', _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedQuaternion, _serializations_transform__WEBPACK_IMPORTED_MODULE_83__.quaternionSerializers);
-        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_82__.registerSerializers)(this.world, 'scale', _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedScale, _serializations_transform__WEBPACK_IMPORTED_MODULE_83__.scaleSerializers);
-        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_82__.registerSerializers)(this.world, 'mixer_animation', _components_network__WEBPACK_IMPORTED_MODULE_71__.NetworkedMixerAnimation, _serializations_mixer_animation__WEBPACK_IMPORTED_MODULE_84__.mixerAnimationSerializers);
+        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_80__.registerSerializers)(this.world, 'position', _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedPosition, _serializations_transform__WEBPACK_IMPORTED_MODULE_81__.positionSerializers);
+        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_80__.registerSerializers)(this.world, 'quaternion', _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedQuaternion, _serializations_transform__WEBPACK_IMPORTED_MODULE_81__.quaternionSerializers);
+        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_80__.registerSerializers)(this.world, 'scale', _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedScale, _serializations_transform__WEBPACK_IMPORTED_MODULE_81__.scaleSerializers);
+        (0,_utils_serializer__WEBPACK_IMPORTED_MODULE_80__.registerSerializers)(this.world, 'mixer_animation', _components_network__WEBPACK_IMPORTED_MODULE_69__.NetworkedMixerAnimation, _serializations_mixer_animation__WEBPACK_IMPORTED_MODULE_82__.mixerAnimationSerializers);
     }
     registerSystem(system, orderPriority = _common__WEBPACK_IMPORTED_MODULE_5__.SystemOrder.BeforeMatricesUpdate) {
         // TODO: Optimize
@@ -7660,11 +7789,11 @@ class App {
         }
     }
     start() {
-        (0,_utils_bitecs_three__WEBPACK_IMPORTED_MODULE_85__.getRendererProxy)(this.world).renderer.setAnimationLoop((timestamp, xrFrame) => {
+        (0,_utils_bitecs_three__WEBPACK_IMPORTED_MODULE_83__.getRendererProxy)(this.world).renderer.setAnimationLoop((timestamp, xrFrame) => {
             // For systems that want to use requestAnimationFrame timestamp
             // instead of performance.now() timestamp
-            (0,_utils_timestamp__WEBPACK_IMPORTED_MODULE_86__.getTimestampProxy)(this.world).timestamp = timestamp;
-            const xrFrameProxy = (0,_utils_webxr__WEBPACK_IMPORTED_MODULE_87__.getXRFrameProxy)(this.world);
+            (0,_utils_timestamp__WEBPACK_IMPORTED_MODULE_84__.getTimestampProxy)(this.world).timestamp = timestamp;
+            const xrFrameProxy = (0,_utils_webxr__WEBPACK_IMPORTED_MODULE_85__.getXRFrameProxy)(this.world);
             if (xrFrame !== undefined) {
                 xrFrameProxy.frame = xrFrame;
             }
@@ -11630,57 +11759,6 @@ const mouseButtonEventClearSystem = (world) => {
 
 /***/ }),
 
-/***/ "../client/src/systems/mouse_interaction_trigger.ts":
-/*!**********************************************************!*\
-  !*** ../client/src/systems/mouse_interaction_trigger.ts ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   mouseInteractionTriggerSystem: () => (/* binding */ mouseInteractionTriggerSystem)
-/* harmony export */ });
-/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
-/* harmony import */ var _components_mouse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/mouse */ "../client/src/components/mouse.ts");
-/* harmony import */ var _components_interact__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/interact */ "../client/src/components/interact.ts");
-
-
-
-const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
-const secondSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_interact__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractable, _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
-const mouseInteractionTriggerSystem = (world) => {
-    firstSourceEventQuery(world).forEach(eid => {
-        for (const e of _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
-            if (e.button !== _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Left) {
-                continue;
-            }
-            if (e.type === _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
-            }
-            else if (e.type === _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
-            }
-        }
-    });
-    secondSourceEventQuery(world).forEach(eid => {
-        for (const e of _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
-            if (e.button !== _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Right) {
-                continue;
-            }
-            if (e.type === _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionTriggerEvent, eid);
-            }
-            else if (e.type === _components_mouse__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionLeaveEvent, eid);
-            }
-        }
-    });
-};
-
-
-/***/ }),
-
 /***/ "../client/src/systems/mouse_move_event.ts":
 /*!*************************************************!*\
   !*** ../client/src/systems/mouse_move_event.ts ***!
@@ -13426,42 +13504,6 @@ const touchEventClearSystem = (world) => {
 
 /***/ }),
 
-/***/ "../client/src/systems/touch_interaction_trigger.ts":
-/*!**********************************************************!*\
-  !*** ../client/src/systems/touch_interaction_trigger.ts ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   touchInteractionTriggerSystem: () => (/* binding */ touchInteractionTriggerSystem)
-/* harmony export */ });
-/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
-/* harmony import */ var _components_touch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/touch */ "../client/src/components/touch.ts");
-/* harmony import */ var _components_interact__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/interact */ "../client/src/components/interact.ts");
-
-
-
-// TODO: Second source interaction
-const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _components_touch__WEBPACK_IMPORTED_MODULE_2__.TouchEvent]);
-const touchInteractionTriggerSystem = (world) => {
-    firstSourceEventQuery(world).forEach(eid => {
-        for (const e of _components_touch__WEBPACK_IMPORTED_MODULE_2__.TouchEventProxy.get(eid).events) {
-            if (e.type === _components_touch__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.Start) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
-            }
-            else if (e.type === _components_touch__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.End) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
-            }
-            // TODO: TouchEventType.Cancel
-        }
-    });
-};
-
-
-/***/ }),
-
 /***/ "../client/src/systems/touch_move_event.ts":
 /*!*************************************************!*\
   !*** ../client/src/systems/touch_move_event.ts ***!
@@ -13731,12 +13773,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   webxrControllerSystem: () => (/* binding */ webxrControllerSystem)
 /* harmony export */ });
 /* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
-/* harmony import */ var _components_interact__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/interact */ "../client/src/components/interact.ts");
-/* harmony import */ var _components_ray__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/ray */ "../client/src/components/ray.ts");
-/* harmony import */ var _components_scene__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/scene */ "../client/src/components/scene.ts");
+/* harmony import */ var _components_ray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ray */ "../client/src/components/ray.ts");
+/* harmony import */ var _components_scene__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/scene */ "../client/src/components/scene.ts");
 /* harmony import */ var _components_webxr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/webxr */ "../client/src/components/webxr.ts");
 /* harmony import */ var _utils_webxr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/webxr */ "../client/src/utils/webxr.ts");
-
 
 
 
@@ -13803,12 +13843,10 @@ const selectListenerQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)(
 const selectEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEvent]);
 const firstControllerConnectionQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_webxr__WEBPACK_IMPORTED_MODULE_1__.FirstXRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerConnectionEvent]);
 const secondControllerConnectionQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_webxr__WEBPACK_IMPORTED_MODULE_1__.SecondXRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerConnectionEvent]);
-const firstInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_interact__WEBPACK_IMPORTED_MODULE_3__.FirstSourceInteractable, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEvent]);
-const secondInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_interact__WEBPACK_IMPORTED_MODULE_3__.SecondSourceInteractable, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEvent]);
 const firstActiveControllerQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_webxr__WEBPACK_IMPORTED_MODULE_1__.ActiveXRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.FirstXRController]);
-const firstRayQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_ray__WEBPACK_IMPORTED_MODULE_4__.FirstRay, _components_ray__WEBPACK_IMPORTED_MODULE_4__.RayComponent]);
+const firstRayQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_ray__WEBPACK_IMPORTED_MODULE_3__.FirstRay, _components_ray__WEBPACK_IMPORTED_MODULE_3__.RayComponent]);
 const secondActiveControllerQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_webxr__WEBPACK_IMPORTED_MODULE_1__.ActiveXRController, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.SecondXRController]);
-const secondRayQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_ray__WEBPACK_IMPORTED_MODULE_4__.SecondRay, _components_ray__WEBPACK_IMPORTED_MODULE_4__.RayComponent]);
+const secondRayQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_ray__WEBPACK_IMPORTED_MODULE_3__.SecondRay, _components_ray__WEBPACK_IMPORTED_MODULE_3__.RayComponent]);
 const webxrControllerEventHandlingSystem = (world) => {
     exitControllerQuery(world).forEach(eid => {
         const controller = _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerProxy.get(eid).controller;
@@ -13841,16 +13879,16 @@ const handleConnectionEvent = (world, eid, e) => {
     if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerConnectionEventType.Connected) {
         (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.ActiveXRController, eid);
         // Is InScene really necessary?
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_scene__WEBPACK_IMPORTED_MODULE_5__.InScene, eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_scene__WEBPACK_IMPORTED_MODULE_4__.InScene, eid);
     }
     else if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerConnectionEventType.Disconnected) {
         (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.removeComponent)(world, _components_webxr__WEBPACK_IMPORTED_MODULE_1__.ActiveXRController, eid);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.removeComponent)(world, _components_scene__WEBPACK_IMPORTED_MODULE_5__.InScene, eid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.removeComponent)(world, _components_scene__WEBPACK_IMPORTED_MODULE_4__.InScene, eid);
     }
 };
 const trackController = (controllerEid, rayEid) => {
     const controller = _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerProxy.get(controllerEid).controller;
-    const ray = _components_ray__WEBPACK_IMPORTED_MODULE_4__.RayProxy.get(rayEid).ray;
+    const ray = _components_ray__WEBPACK_IMPORTED_MODULE_3__.RayProxy.get(rayEid).ray;
     ray.origin.copy(controller.position);
     // TODO: Is this calculation correct?
     ray.direction.set(0, 0, -1.0).applyQuaternion(controller.quaternion);
@@ -13870,32 +13908,6 @@ const webxrControllerSystem = (world) => {
                 continue;
             }
             handleConnectionEvent(world, eid, e);
-        }
-    });
-    firstInteractableQuery(world).forEach(eid => {
-        for (const e of _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventProxy.get(eid).events) {
-            if (e.controller !== _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerType.First) {
-                continue;
-            }
-            if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventType.Start) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_3__.FirstSourceInteractionTriggerEvent, eid);
-            }
-            else if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventType.End) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_3__.FirstSourceInteractionLeaveEvent, eid);
-            }
-        }
-    });
-    secondInteractableQuery(world).forEach(eid => {
-        for (const e of _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventProxy.get(eid).events) {
-            if (e.controller !== _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerType.Second) {
-                continue;
-            }
-            if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventType.Start) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_3__.SecondSourceInteractionTriggerEvent, eid);
-            }
-            else if (e.type === _components_webxr__WEBPACK_IMPORTED_MODULE_1__.XRControllerSelectEventType.End) {
-                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_interact__WEBPACK_IMPORTED_MODULE_3__.SecondSourceInteractionLeaveEvent, eid);
-            }
         }
     });
     if (!(0,_utils_webxr__WEBPACK_IMPORTED_MODULE_2__.isXRPresenting)(world)) {
@@ -108620,50 +108632,53 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! three */ "../../node_modules/three/build/three.module.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! three */ "../../node_modules/three/build/three.module.js");
 /* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/ui/virtual_joystick.ts");
 /* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/ui/webxr.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/ui/textchat.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/image.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/image_loader.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/video.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/video_loader.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/loading_object.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/gltf_mixer_animation.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/lazily_update_video_state.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_key_controls.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_mouse_controls.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_virtual_joystick_controls.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/text.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/nametag.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/billboard.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/xr_controller_ray.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/virtual_joystick_event.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/video.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/serializations/video.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/avatar_mouse_controls.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/utils/xr_controller_ray.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/xr_controller_ray.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/virtual_joystick.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/textchat.ts");
-/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/webxr.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/mouse_interaction_trigger.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/touch_interaction_trigger.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/webxr_controller_interaction_trigger.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/ui/textchat.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/image.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/image_loader.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/video.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/video_loader.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/loading_object.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/gltf_mixer_animation.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/lazily_update_video_state.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_key_controls.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_mouse_controls.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/avatar_virtual_joystick_controls.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/text.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/nametag.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/billboard.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/xr_controller_ray.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/systems/virtual_joystick_event.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/video.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/serializations/video.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/avatar_mouse_controls.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/utils/xr_controller_ray.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/xr_controller_ray.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/virtual_joystick.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/textchat.ts");
+/* harmony import */ var _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! @tiny-web-metaverse/addons/src */ "../addons/src/components/webxr.ts");
 /* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/app.ts");
 /* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/common.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/prefab.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/serializer.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/scene.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/gltf.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/webxr.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/entity_object3d.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/network.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/network.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/entity_object3d.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/keyboard.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/mouse.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/audio_effect.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/message_event.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/select.ts");
-/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/stream.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/prefab.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/serializer.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/scene.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/gltf.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/webxr.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/entity_object3d.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/utils/network.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/network.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/entity_object3d.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/keyboard.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/mouse.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/audio_effect.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/message_event.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/select.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/stream.ts");
 /* harmony import */ var _components_ai_avatar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/ai_avatar */ "./src/components/ai_avatar.ts");
 /* harmony import */ var _components_join_dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/join_dialog */ "./src/components/join_dialog.ts");
 /* harmony import */ var _components_side_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/side_bar */ "./src/components/side_bar.ts");
@@ -108741,108 +108756,111 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
     document.body.appendChild(canvas);
     app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_22__.virtualJoystickUISystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.EventHandling);
     app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_24__.webXrButtonsUISystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.EventHandling);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_25__.textChatUISystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_25__.mouseInteractionTriggerSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.EventHandling + 20);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_26__.touchInteractionTriggerSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.EventHandling + 20);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_27__.webxrControllerInteractionTriggerSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.EventHandling + 20);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_28__.textChatUISystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
     app.registerSystem(_ui_text_to_model__WEBPACK_IMPORTED_MODULE_19__.textToModelUISystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_26__.imageSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_27__.imageLoadSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_28__.videoSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_29__.videoLoadSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_29__.imageSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_30__.imageLoadSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_31__.videoSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_32__.videoLoadSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
     app.registerSystem(_systems_text_to_model__WEBPACK_IMPORTED_MODULE_15__.textToModelLoadSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_30__.loadingObjectSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_31__.gltfMixerAnimationSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup + 1);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_32__.lazilyUpdateVideoStateSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup + 1);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_33__.avatarKeyControlsSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_34__.avatarMouseControlsSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_33__.loadingObjectSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_34__.gltfMixerAnimationSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup + 1);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_35__.lazilyUpdateVideoStateSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Setup + 1);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_36__.avatarKeyControlsSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_37__.avatarMouseControlsSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
     app.registerSystem(_systems_ai_avatar__WEBPACK_IMPORTED_MODULE_13__.aiAvatarSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
     app.registerSystem(_ui_join_dialog__WEBPACK_IMPORTED_MODULE_17__.updateJoinDialogSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
     app.registerSystem(_ui_side_bar__WEBPACK_IMPORTED_MODULE_18__.updateSidebarSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_35__.avatarVirtualJoystickSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_36__.textSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_37__.nametagSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.MatricesUpdate - 1);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_38__.billboardSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.MatricesUpdate - 1);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_39__.xrControllerRaySystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Render - 1);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_38__.avatarVirtualJoystickSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_39__.textSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.BeforeMatricesUpdate);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_40__.nametagSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.MatricesUpdate - 1);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_41__.billboardSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.MatricesUpdate - 1);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_42__.xrControllerRaySystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Render - 1);
     app.registerSystem(_systems_color__WEBPACK_IMPORTED_MODULE_14__.colorSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Render - 1);
     app.registerSystem(_systems_user__WEBPACK_IMPORTED_MODULE_16__.userEventSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.Render - 1);
-    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_40__.clearVirtualJoystickEventSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.TearDown);
+    app.registerSystem(_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_43__.clearVirtualJoystickEventSystem, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_23__.SystemOrder.TearDown);
     const world = app.getWorld();
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'avatar', _prefabs_avatar__WEBPACK_IMPORTED_MODULE_6__.AvatarPrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'cube', _prefabs_cube__WEBPACK_IMPORTED_MODULE_7__.CubePrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'duck', _prefabs_duck__WEBPACK_IMPORTED_MODULE_8__.DuckPrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'fox', _prefabs_fox__WEBPACK_IMPORTED_MODULE_9__.FoxPrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'gltf', _prefabs_gltf__WEBPACK_IMPORTED_MODULE_10__.GltfPrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'image', _prefabs_image__WEBPACK_IMPORTED_MODULE_11__.ImagePrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_41__.registerPrefab)(world, 'video', _prefabs_video__WEBPACK_IMPORTED_MODULE_12__.VideoPrefab);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_42__.registerSerializers)(world, 'video', _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_43__.NetworkedVideo, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_44__.videoSerializers);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'avatar', _prefabs_avatar__WEBPACK_IMPORTED_MODULE_6__.AvatarPrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'cube', _prefabs_cube__WEBPACK_IMPORTED_MODULE_7__.CubePrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'duck', _prefabs_duck__WEBPACK_IMPORTED_MODULE_8__.DuckPrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'fox', _prefabs_fox__WEBPACK_IMPORTED_MODULE_9__.FoxPrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'gltf', _prefabs_gltf__WEBPACK_IMPORTED_MODULE_10__.GltfPrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'image', _prefabs_image__WEBPACK_IMPORTED_MODULE_11__.ImagePrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_44__.registerPrefab)(world, 'video', _prefabs_video__WEBPACK_IMPORTED_MODULE_12__.VideoPrefab);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__.registerSerializers)(world, 'video', _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_46__.NetworkedVideo, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_47__.videoSerializers);
     const sceneObjectEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__.InScene, sceneObjectEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_46__.GltfSceneLoader, sceneObjectEid);
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_46__.GltfSceneLoaderProxy.get(sceneObjectEid).allocate(sceneAssetUrl);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_47__.InvisibleInAR, sceneObjectEid);
-    const light = new three__WEBPACK_IMPORTED_MODULE_48__.AmbientLight(0x888888);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_48__.InScene, sceneObjectEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_49__.GltfSceneLoader, sceneObjectEid);
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_49__.GltfSceneLoaderProxy.get(sceneObjectEid).allocate(sceneAssetUrl);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.InvisibleInAR, sceneObjectEid);
+    const light = new three__WEBPACK_IMPORTED_MODULE_51__.AmbientLight(0x888888);
     const lightEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__.InScene, lightEid);
-    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_49__.addObject3D)(world, light, lightEid);
-    const avatarEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.NetworkedType.Local, 'avatar');
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.EntityObject3DProxy.get(avatarEid).root.position.set(0.0, 0.75, 2.0);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.KeyEventListener, avatarEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.MouseButtonEventListener, avatarEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.AudioDestination, avatarEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_56__.AvatarMouseControls, avatarEid);
-    _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_56__.AvatarMouseControlsProxy.get(avatarEid).allocate();
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_48__.InScene, lightEid);
+    (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.addObject3D)(world, light, lightEid);
+    const avatarEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.NetworkedType.Local, 'avatar');
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.EntityObject3DProxy.get(avatarEid).root.position.set(0.0, 0.75, 2.0);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_56__.KeyEventListener, avatarEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_57__.MouseButtonEventListener, avatarEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_58__.AudioDestination, avatarEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__.AvatarMouseControls, avatarEid);
+    _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__.AvatarMouseControlsProxy.get(avatarEid).allocate();
     const aiAvatarCommandEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
     (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_ai_avatar__WEBPACK_IMPORTED_MODULE_1__.AIAvatarCommand, aiAvatarCommandEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_57__.MessageEventListener, aiAvatarCommandEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_60__.MessageEventListener, aiAvatarCommandEid);
     const firstXrControllerRayEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_58__.addXRControllerRayComponent)(world, firstXrControllerRayEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_47__.XRControllerConnectionEventListener, firstXrControllerRayEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__.FirstXRControllerRay, firstXrControllerRayEid);
+    (0,_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_61__.addXRControllerRayComponent)(world, firstXrControllerRayEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.XRControllerConnectionEventListener, firstXrControllerRayEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_62__.FirstXRControllerRay, firstXrControllerRayEid);
     const secondXrControllerRayEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_58__.addXRControllerRayComponent)(world, secondXrControllerRayEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_47__.XRControllerConnectionEventListener, secondXrControllerRayEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_59__.SecondXRControllerRay, secondXrControllerRayEid);
+    (0,_tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_61__.addXRControllerRayComponent)(world, secondXrControllerRayEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.XRControllerConnectionEventListener, secondXrControllerRayEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_62__.SecondXRControllerRay, secondXrControllerRayEid);
     const envMapLoaderEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__.SceneEnvironmentMapLoader, envMapLoaderEid);
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_45__.SceneEnvironmentMapLoaderProxy.get(envMapLoaderEid).allocate(envTextureUrl);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_48__.SceneEnvironmentMapLoader, envMapLoaderEid);
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_48__.SceneEnvironmentMapLoaderProxy.get(envMapLoaderEid).allocate(envTextureUrl);
     if ((0,_utils_platform_detect__WEBPACK_IMPORTED_MODULE_20__.isMobile)() || (0,_utils_platform_detect__WEBPACK_IMPORTED_MODULE_20__.isTablet)()) {
         const virtualJoystickLeftEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystick, virtualJoystickLeftEid);
-        _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystickProxy.get(virtualJoystickLeftEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystickLeft, virtualJoystickLeftEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystick, virtualJoystickLeftEid);
+        _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystickProxy.get(virtualJoystickLeftEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystickLeft, virtualJoystickLeftEid);
         const virtualJoystickRightEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystick, virtualJoystickRightEid);
-        _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystickProxy.get(virtualJoystickRightEid).allocate();
-        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_60__.VirtualJoystickRight, virtualJoystickRightEid);
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystick, virtualJoystickRightEid);
+        _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystickProxy.get(virtualJoystickRightEid).allocate();
+        (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_63__.VirtualJoystickRight, virtualJoystickRightEid);
     }
     const textChatEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_61__.TextChat, textChatEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.BroadcastNetworkEventListener, textChatEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.UserNetworkEventListener, textChatEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_64__.TextChat, textChatEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.BroadcastNetworkEventListener, textChatEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.UserNetworkEventListener, textChatEid);
     const textToModelEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
     (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_text_to_model__WEBPACK_IMPORTED_MODULE_4__.TextToModel, textToModelEid);
     const mouseButtonEventEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.MouseButtonEventListener, mouseButtonEventEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_57__.MouseButtonEventListener, mouseButtonEventEid);
     const userEventHandlerEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
     (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_user_event_handler__WEBPACK_IMPORTED_MODULE_5__.UserEventHandler, userEventHandlerEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.UserNetworkEventListener, userEventHandlerEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.UserNetworkEventListener, userEventHandlerEid);
     const sideBarEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
     (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_side_bar__WEBPACK_IMPORTED_MODULE_3__.SideBar, sideBarEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_62__.SelectedEventListener, sideBarEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_65__.SelectedEventListener, sideBarEid);
     const joinDialogEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
     (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_join_dialog__WEBPACK_IMPORTED_MODULE_2__.JoinDialog, joinDialogEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_63__.ConnectedStreamEventListener, joinDialogEid);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_63__.JoinedStreamEventListener, joinDialogEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_66__.ConnectedStreamEventListener, joinDialogEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_66__.JoinedStreamEventListener, joinDialogEid);
     const vrButtonEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_64__.WebXRVRButton, vrButtonEid);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_67__.WebXRVRButton, vrButtonEid);
     const arButtonEid = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addEntity)(world);
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_64__.WebXRARButton, arButtonEid);
-    const cubeEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.NetworkedType.Shared, 'cube');
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.EntityObject3DProxy.get(cubeEid).root.position.set((Math.random() - 0.5) * 10.0, 0.25, (Math.random() - 0.5) * 10.0);
-    const duckEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.NetworkedType.Shared, 'duck');
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.EntityObject3DProxy.get(duckEid).root.position.set((Math.random() - 0.5) * 10.0, 0.1, (Math.random() - 0.5) * 10.0);
-    const foxEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.NetworkedType.Shared, 'fox');
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.EntityObject3DProxy.get(foxEid).root.position.set((Math.random() - 0.5) * 10.0, 0.1, (Math.random() - 0.5) * 10.0);
-    const imageEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_50__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_51__.NetworkedType.Shared, 'image');
-    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_52__.EntityObject3DProxy.get(imageEid).root.position.set((Math.random() - 0.5) * 10.0, 0.5, (Math.random() - 0.5) * 10.0);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_addons_src__WEBPACK_IMPORTED_MODULE_67__.WebXRARButton, arButtonEid);
+    const cubeEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.NetworkedType.Shared, 'cube');
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.EntityObject3DProxy.get(cubeEid).root.position.set((Math.random() - 0.5) * 10.0, 0.25, (Math.random() - 0.5) * 10.0);
+    const duckEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.NetworkedType.Shared, 'duck');
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.EntityObject3DProxy.get(duckEid).root.position.set((Math.random() - 0.5) * 10.0, 0.1, (Math.random() - 0.5) * 10.0);
+    const foxEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.NetworkedType.Shared, 'fox');
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.EntityObject3DProxy.get(foxEid).root.position.set((Math.random() - 0.5) * 10.0, 0.1, (Math.random() - 0.5) * 10.0);
+    const imageEid = (0,_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_53__.createNetworkedEntity)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_54__.NetworkedType.Shared, 'image');
+    _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_55__.EntityObject3DProxy.get(imageEid).root.position.set((Math.random() - 0.5) * 10.0, 0.5, (Math.random() - 0.5) * 10.0);
     // Commenting out because of bad performance
     /*
       const videoEid = createNetworkedEntity(world, NetworkedType.Shared, 'video');

@@ -4,15 +4,13 @@ import {
   IWorld
 } from "bitecs";
 import {
+  FirstSourceInteractable,
+  FirstSourceInteractionLeaveEvent,
+  FirstSourceInteractionTriggerEvent,
   TouchEvent,
   TouchEventProxy,
   TouchEventType
-} from "../components/touch";
-import {
-  FirstSourceInteractable,
-  FirstSourceInteractionLeaveEvent,
-  FirstSourceInteractionTriggerEvent
-} from "../components/interact";
+} from "@tiny-web-metaverse/client/src";
 
 // TODO: Second source interaction
 

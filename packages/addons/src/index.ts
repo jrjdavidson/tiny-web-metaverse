@@ -21,11 +21,14 @@ export * from "./systems/image";
 export * from "./systems/image_loader";
 export * from "./systems/lazily_update_video_state";
 export * from "./systems/loading_object";
+export * from "./systems/mouse_interaction_trigger";
 export * from "./systems/nametag";
 export * from "./systems/text";
+export * from "./systems/touch_interaction_trigger";
 export * from "./systems/video";
 export * from "./systems/video_loader";
 export * from "./systems/virtual_joystick_event";
+export * from "./systems/webxr_controller_interaction_trigger";
 export * from "./systems/xr_controller_ray";
 
 export * from "./ui/textchat";

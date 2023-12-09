@@ -4,19 +4,17 @@ import {
   IWorld
 } from "bitecs";
 import {
-  MouseButtonEvent,
-  MouseButtonEventProxy,
-  MouseButtonEventType,
-  MouseButtonType
-} from "../components/mouse";
-import {
   FirstSourceInteractable,
   FirstSourceInteractionLeaveEvent,
   FirstSourceInteractionTriggerEvent,
+  MouseButtonEvent,
+  MouseButtonEventProxy,
+  MouseButtonEventType,
+  MouseButtonType,
   SecondSourceInteractable,
   SecondSourceInteractionLeaveEvent,
   SecondSourceInteractionTriggerEvent
-} from "../components/interact";
+} from "@tiny-web-metaverse/client/src";
 
 const firstSourceEventQuery = defineQuery([FirstSourceInteractable, MouseButtonEvent]);
 const secondSourceEventQuery = defineQuery([SecondSourceInteractable, MouseButtonEvent]);

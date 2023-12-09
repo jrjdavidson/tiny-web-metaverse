@@ -18,12 +18,14 @@ import {
   imageLoadSystem,
   lazilyUpdateVideoStateSystem,
   loadingObjectSystem,
+  mouseInteractionTriggerSystem,
   nametagSystem,
   NetworkedVideo,
   SecondXRControllerRay,
   TextChat,
   textChatUISystem,
   textSystem,
+  touchInteractionTriggerSystem,
   videoSystem,
   videoLoadSystem,
   videoSerializers,
@@ -34,6 +36,7 @@ import {
   virtualJoystickUISystem,
   WebXRARButton,
   webXrButtonsUISystem,
+  webxrControllerInteractionTriggerSystem,
   WebXRVRButton,
   xrControllerRaySystem
 } from "@tiny-web-metaverse/addons/src";
@@ -121,6 +124,10 @@ const run = async (): Promise<void> => {
 
   app.registerSystem(virtualJoystickUISystem, SystemOrder.EventHandling);
   app.registerSystem(webXrButtonsUISystem, SystemOrder.EventHandling);
+
+  app.registerSystem(mouseInteractionTriggerSystem, SystemOrder.EventHandling + 20);
+  app.registerSystem(touchInteractionTriggerSystem, SystemOrder.EventHandling + 20);
+  app.registerSystem(webxrControllerInteractionTriggerSystem, SystemOrder.EventHandling + 20);
 
   app.registerSystem(textChatUISystem, SystemOrder.Setup);
   app.registerSystem(textToModelUISystem, SystemOrder.Setup);

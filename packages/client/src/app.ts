@@ -161,7 +161,6 @@ import {
 } from "./systems/mouse_move_event";
 import { mousePositionToPointerSystem } from "./systems/mouse_position_to_pointer";
 import { mousePositionTrackSystem } from "./systems/mouse_position_track";
-import { mouseInteractionTriggerSystem } from "./systems/mouse_interaction_trigger";
 import { networkEventClearSystem, networkEventHandleSystem } from "./systems/network_event";
 import { networkSendSystem } from "./systems/network_send";
 import { networkedSystem } from "./systems/networked";
@@ -185,7 +184,6 @@ import {
   touchEventClearSystem,
   touchEventHandleSystem
 } from "./systems/touch_event";
-import { touchInteractionTriggerSystem } from "./systems/touch_interaction_trigger";
 import {
   touchMoveEventClearSystem,
   touchMoveEventHandleSystem
@@ -316,12 +314,12 @@ export class App {
     this.registerSystem(lazilyActivateAnimationSystem, SystemOrder.Setup + 1);
     this.registerSystem(generateBVHSystem, SystemOrder.Setup + 1);
 
+    this.registerSystem(raycastSystem, SystemOrder.BeforeMatricesUpdate);
+    this.registerSystem(interactSystem, SystemOrder.BeforeMatricesUpdate);
+
     this.registerSystem(linearMoveSystem, SystemOrder.BeforeMatricesUpdate);
     this.registerSystem(linearTransformSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(raycastSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(mouseInteractionTriggerSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(touchInteractionTriggerSystem, SystemOrder.BeforeMatricesUpdate);
-    this.registerSystem(interactSystem, SystemOrder.BeforeMatricesUpdate);
+
     this.registerSystem(selectSystem, SystemOrder.BeforeMatricesUpdate);
     this.registerSystem(grabSystem, SystemOrder.BeforeMatricesUpdate);
     this.registerSystem(grabbedObjectsRayTrackSystem, SystemOrder.BeforeMatricesUpdate);

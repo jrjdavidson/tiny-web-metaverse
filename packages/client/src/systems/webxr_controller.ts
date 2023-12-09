@@ -9,14 +9,6 @@ import {
 } from "bitecs";
 import { Event, Group } from "three";
 import {
-  FirstSourceInteractable,
-  FirstSourceInteractionLeaveEvent,
-  FirstSourceInteractionTriggerEvent,
-  SecondSourceInteractable,
-  SecondSourceInteractionLeaveEvent,
-  SecondSourceInteractionTriggerEvent
-} from "../components/interact";
-import {
   FirstRay,
   RayComponent,
   RayProxy,
@@ -136,9 +128,6 @@ const selectEventQuery = defineQuery([XRControllerSelectEvent]);
 const firstControllerConnectionQuery = defineQuery([FirstXRController, XRController, XRControllerConnectionEvent]);
 const secondControllerConnectionQuery = defineQuery([SecondXRController, XRController, XRControllerConnectionEvent]);
 
-const firstInteractableQuery = defineQuery([FirstSourceInteractable, XRControllerSelectEvent]);
-const secondInteractableQuery = defineQuery([SecondSourceInteractable, XRControllerSelectEvent]);
-
 const firstActiveControllerQuery = defineQuery([ActiveXRController, FirstXRController]);
 const firstRayQuery = defineQuery([FirstRay, RayComponent]);
 
@@ -214,32 +203,6 @@ export const webxrControllerSystem = (world: IWorld): void => {
         continue;
       }
       handleConnectionEvent(world, eid, e);
-    }
-  });
-
-  firstInteractableQuery(world).forEach(eid => {
-    for (const e of XRControllerSelectEventProxy.get(eid).events) {
-      if (e.controller !== XRControllerType.First) {
-        continue;
-      }
-      if (e.type === XRControllerSelectEventType.Start) {
-        addComponent(world, FirstSourceInteractionTriggerEvent, eid);
-      } else if (e.type === XRControllerSelectEventType.End) {
-        addComponent(world, FirstSourceInteractionLeaveEvent, eid);
-      }
-    }
-  });
-
-  secondInteractableQuery(world).forEach(eid => {
-    for (const e of XRControllerSelectEventProxy.get(eid).events) {
-      if (e.controller !== XRControllerType.Second) {
-        continue;
-      }
-      if (e.type === XRControllerSelectEventType.Start) {
-        addComponent(world, SecondSourceInteractionTriggerEvent, eid);
-      } else if (e.type === XRControllerSelectEventType.End) {
-        addComponent(world, SecondSourceInteractionLeaveEvent, eid);
-      }
     }
   });
 

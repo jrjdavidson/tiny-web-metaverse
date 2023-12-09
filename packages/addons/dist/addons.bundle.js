@@ -5942,6 +5942,55 @@ const loadingObjectSystem = (world) => {
 
 /***/ }),
 
+/***/ "./src/systems/mouse_interaction_trigger.ts":
+/*!**************************************************!*\
+  !*** ./src/systems/mouse_interaction_trigger.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   mouseInteractionTriggerSystem: () => (/* binding */ mouseInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/mouse.ts");
+
+
+const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
+const secondSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEvent]);
+const mouseInteractionTriggerSystem = (world) => {
+    firstSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
+            if (e.button !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Left) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+    secondSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventProxy.get(eid).events) {
+            if (e.button !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonType.Right) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Down) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.MouseButtonEventType.Up) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+};
+
+
+/***/ }),
+
 /***/ "./src/systems/nametag.ts":
 /*!********************************!*\
   !*** ./src/systems/nametag.ts ***!
@@ -6071,6 +6120,40 @@ const textSystem = (world) => {
         //       detect sync completion with coroutine?
         //       Test can be easier.
         _components_text__WEBPACK_IMPORTED_MODULE_1__.TextProxy.get(eid).text.sync();
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/systems/touch_interaction_trigger.ts":
+/*!**************************************************!*\
+  !*** ./src/systems/touch_interaction_trigger.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   touchInteractionTriggerSystem: () => (/* binding */ touchInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/touch.ts");
+
+
+// TODO: Second source interaction
+const firstSourceEventQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEvent]);
+const touchInteractionTriggerSystem = (world) => {
+    firstSourceEventQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventProxy.get(eid).events) {
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.TouchEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+            // TODO: TouchEventType.Cancel
+        }
     });
 };
 
@@ -6215,6 +6298,55 @@ const clearVirtualJoystickEventSystem = (world) => {
     eventQuery(world).forEach(eid => {
         _components_virtual_joystick__WEBPACK_IMPORTED_MODULE_1__.VirtualJoystickEventProxy.get(eid).free();
         (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.removeComponent)(world, _components_virtual_joystick__WEBPACK_IMPORTED_MODULE_1__.VirtualJoystickEvent, eid);
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/systems/webxr_controller_interaction_trigger.ts":
+/*!*************************************************************!*\
+  !*** ./src/systems/webxr_controller_interaction_trigger.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   webxrControllerInteractionTriggerSystem: () => (/* binding */ webxrControllerInteractionTriggerSystem)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/interact.ts");
+/* harmony import */ var _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tiny-web-metaverse/client/src */ "../client/src/components/webxr.ts");
+
+
+const firstInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEvent]);
+const secondInteractableQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractable, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEvent]);
+const webxrControllerInteractionTriggerSystem = (world) => {
+    firstInteractableQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventProxy.get(eid).events) {
+            if (e.controller !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerType.First) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.FirstSourceInteractionLeaveEvent, eid);
+            }
+        }
+    });
+    secondInteractableQuery(world).forEach(eid => {
+        for (const e of _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventProxy.get(eid).events) {
+            if (e.controller !== _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerType.Second) {
+                continue;
+            }
+            if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.Start) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionTriggerEvent, eid);
+            }
+            else if (e.type === _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_2__.XRControllerSelectEventType.End) {
+                (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _tiny_web_metaverse_client_src__WEBPACK_IMPORTED_MODULE_1__.SecondSourceInteractionLeaveEvent, eid);
+            }
+        }
     });
 };
 
@@ -7495,6 +7627,41 @@ const GrabbedBySecondSource = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineCompo
 
 /***/ }),
 
+/***/ "../client/src/components/interact.ts":
+/*!********************************************!*\
+  !*** ../client/src/components/interact.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FirstSourceInteractable: () => (/* binding */ FirstSourceInteractable),
+/* harmony export */   FirstSourceInteracted: () => (/* binding */ FirstSourceInteracted),
+/* harmony export */   FirstSourceInteractionLeaveEvent: () => (/* binding */ FirstSourceInteractionLeaveEvent),
+/* harmony export */   FirstSourceInteractionTriggerEvent: () => (/* binding */ FirstSourceInteractionTriggerEvent),
+/* harmony export */   SecondSourceInteractable: () => (/* binding */ SecondSourceInteractable),
+/* harmony export */   SecondSourceInteracted: () => (/* binding */ SecondSourceInteracted),
+/* harmony export */   SecondSourceInteractionLeaveEvent: () => (/* binding */ SecondSourceInteractionLeaveEvent),
+/* harmony export */   SecondSourceInteractionTriggerEvent: () => (/* binding */ SecondSourceInteractionTriggerEvent)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+
+// Assumes
+//   First source: Mouse left click
+//   Second source: Mouse right click
+// TODO: Rename
+const FirstSourceInteractable = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const FirstSourceInteracted = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const FirstSourceInteractionTriggerEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const FirstSourceInteractionLeaveEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const SecondSourceInteractable = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const SecondSourceInteracted = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const SecondSourceInteractionTriggerEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const SecondSourceInteractionLeaveEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+
+
+/***/ }),
+
 /***/ "../client/src/components/keyboard.ts":
 /*!********************************************!*\
   !*** ../client/src/components/keyboard.ts ***!
@@ -8506,6 +8673,120 @@ class TimeProxy {
     }
 }
 TimeProxy.instance = new TimeProxy();
+
+
+/***/ }),
+
+/***/ "../client/src/components/touch.ts":
+/*!*****************************************!*\
+  !*** ../client/src/components/touch.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TouchEvent: () => (/* binding */ TouchEvent),
+/* harmony export */   TouchEventListener: () => (/* binding */ TouchEventListener),
+/* harmony export */   TouchEventProxy: () => (/* binding */ TouchEventProxy),
+/* harmony export */   TouchEventType: () => (/* binding */ TouchEventType),
+/* harmony export */   TouchHold: () => (/* binding */ TouchHold),
+/* harmony export */   TouchMoveEvent: () => (/* binding */ TouchMoveEvent),
+/* harmony export */   TouchMoveEventListener: () => (/* binding */ TouchMoveEventListener),
+/* harmony export */   TouchMoveEventProxy: () => (/* binding */ TouchMoveEventProxy),
+/* harmony export */   TouchPosition: () => (/* binding */ TouchPosition),
+/* harmony export */   TouchPositionProxy: () => (/* binding */ TouchPositionProxy)
+/* harmony export */ });
+/* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../src/common */ "../client/src/common.ts");
+
+
+var TouchEventType;
+(function (TouchEventType) {
+    TouchEventType[TouchEventType["Cancel"] = 0] = "Cancel";
+    TouchEventType[TouchEventType["End"] = 1] = "End";
+    TouchEventType[TouchEventType["Start"] = 2] = "Start";
+})(TouchEventType || (TouchEventType = {}));
+;
+const TouchEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const TouchEventListener = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const TouchHold = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+class TouchEventProxy {
+    constructor() {
+        this.eid = _src_common__WEBPACK_IMPORTED_MODULE_1__.NULL_EID;
+        this.map = new Map();
+    }
+    static get(eid) {
+        TouchEventProxy.instance.eid = eid;
+        return TouchEventProxy.instance;
+    }
+    allocate() {
+        this.map.set(this.eid, []);
+    }
+    add(type, x, y) {
+        this.map.get(this.eid).push({ type, x, y });
+    }
+    free() {
+        this.map.delete(this.eid);
+    }
+    get events() {
+        return this.map.get(this.eid);
+    }
+}
+TouchEventProxy.instance = new TouchEventProxy();
+const TouchMoveEvent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+const TouchMoveEventListener = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+class TouchMoveEventProxy {
+    constructor() {
+        this.eid = _src_common__WEBPACK_IMPORTED_MODULE_1__.NULL_EID;
+        this.map = new Map();
+    }
+    static get(eid) {
+        TouchMoveEventProxy.instance.eid = eid;
+        return TouchMoveEventProxy.instance;
+    }
+    allocate() {
+        this.map.set(this.eid, []);
+    }
+    add(x, y) {
+        this.map.get(this.eid).push({ x, y });
+    }
+    free() {
+        this.map.delete(this.eid);
+    }
+    get events() {
+        return this.map.get(this.eid);
+    }
+}
+TouchMoveEventProxy.instance = new TouchMoveEventProxy();
+const TouchPosition = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+class TouchPositionProxy {
+    constructor() {
+        this.eid = _src_common__WEBPACK_IMPORTED_MODULE_1__.NULL_EID;
+        this.map = new Map();
+    }
+    static get(eid) {
+        TouchPositionProxy.instance.eid = eid;
+        return TouchPositionProxy.instance;
+    }
+    allocate() {
+        this.map.set(this.eid, { x: 0, y: 0 });
+    }
+    free() {
+        this.map.delete(this.eid);
+    }
+    update(x, y) {
+        const values = this.map.get(this.eid);
+        values.x = x;
+        values.y = y;
+    }
+    get x() {
+        return this.map.get(this.eid).x;
+    }
+    get y() {
+        return this.map.get(this.eid).y;
+    }
+}
+TouchPositionProxy.instance = new TouchPositionProxy();
 
 
 /***/ }),
@@ -70161,31 +70442,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   WebXRVRButton: () => (/* reexport safe */ _components_webxr__WEBPACK_IMPORTED_MODULE_9__.WebXRVRButton),
 /* harmony export */   XRControllerRay: () => (/* reexport safe */ _components_xr_controller_ray__WEBPACK_IMPORTED_MODULE_10__.XRControllerRay),
 /* harmony export */   XRControllerRayProxy: () => (/* reexport safe */ _components_xr_controller_ray__WEBPACK_IMPORTED_MODULE_10__.XRControllerRayProxy),
-/* harmony export */   addNametagComponent: () => (/* reexport safe */ _utils_nametag__WEBPACK_IMPORTED_MODULE_30__.addNametagComponent),
-/* harmony export */   addTextComponent: () => (/* reexport safe */ _utils_text__WEBPACK_IMPORTED_MODULE_31__.addTextComponent),
-/* harmony export */   addXRControllerRayComponent: () => (/* reexport safe */ _utils_xr_controller_ray__WEBPACK_IMPORTED_MODULE_33__.addXRControllerRayComponent),
+/* harmony export */   addNametagComponent: () => (/* reexport safe */ _utils_nametag__WEBPACK_IMPORTED_MODULE_33__.addNametagComponent),
+/* harmony export */   addTextComponent: () => (/* reexport safe */ _utils_text__WEBPACK_IMPORTED_MODULE_34__.addTextComponent),
+/* harmony export */   addXRControllerRayComponent: () => (/* reexport safe */ _utils_xr_controller_ray__WEBPACK_IMPORTED_MODULE_36__.addXRControllerRayComponent),
 /* harmony export */   avatarKeyControlsSystem: () => (/* reexport safe */ _systems_avatar_key_controls__WEBPACK_IMPORTED_MODULE_12__.avatarKeyControlsSystem),
 /* harmony export */   avatarMouseControlsSystem: () => (/* reexport safe */ _systems_avatar_mouse_controls__WEBPACK_IMPORTED_MODULE_13__.avatarMouseControlsSystem),
 /* harmony export */   avatarVirtualJoystickSystem: () => (/* reexport safe */ _systems_avatar_virtual_joystick_controls__WEBPACK_IMPORTED_MODULE_14__.avatarVirtualJoystickSystem),
 /* harmony export */   billboardSystem: () => (/* reexport safe */ _systems_billboard__WEBPACK_IMPORTED_MODULE_15__.billboardSystem),
-/* harmony export */   clearVirtualJoystickEventSystem: () => (/* reexport safe */ _systems_virtual_joystick_event__WEBPACK_IMPORTED_MODULE_25__.clearVirtualJoystickEventSystem),
+/* harmony export */   clearVirtualJoystickEventSystem: () => (/* reexport safe */ _systems_virtual_joystick_event__WEBPACK_IMPORTED_MODULE_27__.clearVirtualJoystickEventSystem),
 /* harmony export */   gltfMixerAnimationSystem: () => (/* reexport safe */ _systems_gltf_mixer_animation__WEBPACK_IMPORTED_MODULE_16__.gltfMixerAnimationSystem),
 /* harmony export */   imageLoadSystem: () => (/* reexport safe */ _systems_image_loader__WEBPACK_IMPORTED_MODULE_18__.imageLoadSystem),
 /* harmony export */   imageSystem: () => (/* reexport safe */ _systems_image__WEBPACK_IMPORTED_MODULE_17__.imageSystem),
-/* harmony export */   isTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_32__.isTextChat),
+/* harmony export */   isTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_35__.isTextChat),
 /* harmony export */   lazilyUpdateVideoStateSystem: () => (/* reexport safe */ _systems_lazily_update_video_state__WEBPACK_IMPORTED_MODULE_19__.lazilyUpdateVideoStateSystem),
 /* harmony export */   loadingObjectSystem: () => (/* reexport safe */ _systems_loading_object__WEBPACK_IMPORTED_MODULE_20__.loadingObjectSystem),
-/* harmony export */   nametagSystem: () => (/* reexport safe */ _systems_nametag__WEBPACK_IMPORTED_MODULE_21__.nametagSystem),
-/* harmony export */   parseReceivedTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_32__.parseReceivedTextChat),
-/* harmony export */   sendTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_32__.sendTextChat),
-/* harmony export */   textChatUISystem: () => (/* reexport safe */ _ui_textchat__WEBPACK_IMPORTED_MODULE_27__.textChatUISystem),
-/* harmony export */   textSystem: () => (/* reexport safe */ _systems_text__WEBPACK_IMPORTED_MODULE_22__.textSystem),
-/* harmony export */   videoLoadSystem: () => (/* reexport safe */ _systems_video_loader__WEBPACK_IMPORTED_MODULE_24__.videoLoadSystem),
+/* harmony export */   mouseInteractionTriggerSystem: () => (/* reexport safe */ _systems_mouse_interaction_trigger__WEBPACK_IMPORTED_MODULE_21__.mouseInteractionTriggerSystem),
+/* harmony export */   nametagSystem: () => (/* reexport safe */ _systems_nametag__WEBPACK_IMPORTED_MODULE_22__.nametagSystem),
+/* harmony export */   parseReceivedTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_35__.parseReceivedTextChat),
+/* harmony export */   sendTextChat: () => (/* reexport safe */ _utils_textchat__WEBPACK_IMPORTED_MODULE_35__.sendTextChat),
+/* harmony export */   textChatUISystem: () => (/* reexport safe */ _ui_textchat__WEBPACK_IMPORTED_MODULE_30__.textChatUISystem),
+/* harmony export */   textSystem: () => (/* reexport safe */ _systems_text__WEBPACK_IMPORTED_MODULE_23__.textSystem),
+/* harmony export */   touchInteractionTriggerSystem: () => (/* reexport safe */ _systems_touch_interaction_trigger__WEBPACK_IMPORTED_MODULE_24__.touchInteractionTriggerSystem),
+/* harmony export */   videoLoadSystem: () => (/* reexport safe */ _systems_video_loader__WEBPACK_IMPORTED_MODULE_26__.videoLoadSystem),
 /* harmony export */   videoSerializers: () => (/* reexport safe */ _serializations_video__WEBPACK_IMPORTED_MODULE_11__.videoSerializers),
-/* harmony export */   videoSystem: () => (/* reexport safe */ _systems_video__WEBPACK_IMPORTED_MODULE_23__.videoSystem),
-/* harmony export */   virtualJoystickUISystem: () => (/* reexport safe */ _ui_virtual_joystick__WEBPACK_IMPORTED_MODULE_28__.virtualJoystickUISystem),
-/* harmony export */   webXrButtonsUISystem: () => (/* reexport safe */ _ui_webxr__WEBPACK_IMPORTED_MODULE_29__.webXrButtonsUISystem),
-/* harmony export */   xrControllerRaySystem: () => (/* reexport safe */ _systems_xr_controller_ray__WEBPACK_IMPORTED_MODULE_26__.xrControllerRaySystem)
+/* harmony export */   videoSystem: () => (/* reexport safe */ _systems_video__WEBPACK_IMPORTED_MODULE_25__.videoSystem),
+/* harmony export */   virtualJoystickUISystem: () => (/* reexport safe */ _ui_virtual_joystick__WEBPACK_IMPORTED_MODULE_31__.virtualJoystickUISystem),
+/* harmony export */   webXrButtonsUISystem: () => (/* reexport safe */ _ui_webxr__WEBPACK_IMPORTED_MODULE_32__.webXrButtonsUISystem),
+/* harmony export */   webxrControllerInteractionTriggerSystem: () => (/* reexport safe */ _systems_webxr_controller_interaction_trigger__WEBPACK_IMPORTED_MODULE_28__.webxrControllerInteractionTriggerSystem),
+/* harmony export */   xrControllerRaySystem: () => (/* reexport safe */ _systems_xr_controller_ray__WEBPACK_IMPORTED_MODULE_29__.xrControllerRaySystem)
 /* harmony export */ });
 /* harmony import */ var _components_avatar_mouse_controls__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/avatar_mouse_controls */ "./src/components/avatar_mouse_controls.ts");
 /* harmony import */ var _components_billboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/billboard */ "./src/components/billboard.ts");
@@ -70208,19 +70492,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _systems_image_loader__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./systems/image_loader */ "./src/systems/image_loader.ts");
 /* harmony import */ var _systems_lazily_update_video_state__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./systems/lazily_update_video_state */ "./src/systems/lazily_update_video_state.ts");
 /* harmony import */ var _systems_loading_object__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./systems/loading_object */ "./src/systems/loading_object.ts");
-/* harmony import */ var _systems_nametag__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./systems/nametag */ "./src/systems/nametag.ts");
-/* harmony import */ var _systems_text__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./systems/text */ "./src/systems/text.ts");
-/* harmony import */ var _systems_video__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./systems/video */ "./src/systems/video.ts");
-/* harmony import */ var _systems_video_loader__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./systems/video_loader */ "./src/systems/video_loader.ts");
-/* harmony import */ var _systems_virtual_joystick_event__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./systems/virtual_joystick_event */ "./src/systems/virtual_joystick_event.ts");
-/* harmony import */ var _systems_xr_controller_ray__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./systems/xr_controller_ray */ "./src/systems/xr_controller_ray.ts");
-/* harmony import */ var _ui_textchat__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./ui/textchat */ "./src/ui/textchat.ts");
-/* harmony import */ var _ui_virtual_joystick__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./ui/virtual_joystick */ "./src/ui/virtual_joystick.ts");
-/* harmony import */ var _ui_webxr__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./ui/webxr */ "./src/ui/webxr.ts");
-/* harmony import */ var _utils_nametag__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./utils/nametag */ "./src/utils/nametag.ts");
-/* harmony import */ var _utils_text__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./utils/text */ "./src/utils/text.ts");
-/* harmony import */ var _utils_textchat__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./utils/textchat */ "./src/utils/textchat.ts");
-/* harmony import */ var _utils_xr_controller_ray__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./utils/xr_controller_ray */ "./src/utils/xr_controller_ray.ts");
+/* harmony import */ var _systems_mouse_interaction_trigger__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./systems/mouse_interaction_trigger */ "./src/systems/mouse_interaction_trigger.ts");
+/* harmony import */ var _systems_nametag__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./systems/nametag */ "./src/systems/nametag.ts");
+/* harmony import */ var _systems_text__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./systems/text */ "./src/systems/text.ts");
+/* harmony import */ var _systems_touch_interaction_trigger__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./systems/touch_interaction_trigger */ "./src/systems/touch_interaction_trigger.ts");
+/* harmony import */ var _systems_video__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./systems/video */ "./src/systems/video.ts");
+/* harmony import */ var _systems_video_loader__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./systems/video_loader */ "./src/systems/video_loader.ts");
+/* harmony import */ var _systems_virtual_joystick_event__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./systems/virtual_joystick_event */ "./src/systems/virtual_joystick_event.ts");
+/* harmony import */ var _systems_webxr_controller_interaction_trigger__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./systems/webxr_controller_interaction_trigger */ "./src/systems/webxr_controller_interaction_trigger.ts");
+/* harmony import */ var _systems_xr_controller_ray__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./systems/xr_controller_ray */ "./src/systems/xr_controller_ray.ts");
+/* harmony import */ var _ui_textchat__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./ui/textchat */ "./src/ui/textchat.ts");
+/* harmony import */ var _ui_virtual_joystick__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./ui/virtual_joystick */ "./src/ui/virtual_joystick.ts");
+/* harmony import */ var _ui_webxr__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./ui/webxr */ "./src/ui/webxr.ts");
+/* harmony import */ var _utils_nametag__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./utils/nametag */ "./src/utils/nametag.ts");
+/* harmony import */ var _utils_text__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./utils/text */ "./src/utils/text.ts");
+/* harmony import */ var _utils_textchat__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./utils/textchat */ "./src/utils/textchat.ts");
+/* harmony import */ var _utils_xr_controller_ray__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./utils/xr_controller_ray */ "./src/utils/xr_controller_ray.ts");
+
+
+
 
 
 
@@ -70309,17 +70599,20 @@ var __webpack_exports__imageSystem = __webpack_exports__.imageSystem;
 var __webpack_exports__isTextChat = __webpack_exports__.isTextChat;
 var __webpack_exports__lazilyUpdateVideoStateSystem = __webpack_exports__.lazilyUpdateVideoStateSystem;
 var __webpack_exports__loadingObjectSystem = __webpack_exports__.loadingObjectSystem;
+var __webpack_exports__mouseInteractionTriggerSystem = __webpack_exports__.mouseInteractionTriggerSystem;
 var __webpack_exports__nametagSystem = __webpack_exports__.nametagSystem;
 var __webpack_exports__parseReceivedTextChat = __webpack_exports__.parseReceivedTextChat;
 var __webpack_exports__sendTextChat = __webpack_exports__.sendTextChat;
 var __webpack_exports__textChatUISystem = __webpack_exports__.textChatUISystem;
 var __webpack_exports__textSystem = __webpack_exports__.textSystem;
+var __webpack_exports__touchInteractionTriggerSystem = __webpack_exports__.touchInteractionTriggerSystem;
 var __webpack_exports__videoLoadSystem = __webpack_exports__.videoLoadSystem;
 var __webpack_exports__videoSerializers = __webpack_exports__.videoSerializers;
 var __webpack_exports__videoSystem = __webpack_exports__.videoSystem;
 var __webpack_exports__virtualJoystickUISystem = __webpack_exports__.virtualJoystickUISystem;
 var __webpack_exports__webXrButtonsUISystem = __webpack_exports__.webXrButtonsUISystem;
+var __webpack_exports__webxrControllerInteractionTriggerSystem = __webpack_exports__.webxrControllerInteractionTriggerSystem;
 var __webpack_exports__xrControllerRaySystem = __webpack_exports__.xrControllerRaySystem;
-export { __webpack_exports__AvatarMouseControls as AvatarMouseControls, __webpack_exports__AvatarMouseControlsProxy as AvatarMouseControlsProxy, __webpack_exports__Billboard as Billboard, __webpack_exports__FirstXRControllerRay as FirstXRControllerRay, __webpack_exports__ImageComponent as ImageComponent, __webpack_exports__ImageLoader as ImageLoader, __webpack_exports__ImageLoaderProxy as ImageLoaderProxy, __webpack_exports__ImageProxy as ImageProxy, __webpack_exports__LazyVideoStateUpdate as LazyVideoStateUpdate, __webpack_exports__LazyVideoStateUpdateProxy as LazyVideoStateUpdateProxy, __webpack_exports__LoadingObject as LoadingObject, __webpack_exports__LoadingObjectLoader as LoadingObjectLoader, __webpack_exports__LoadingObjectProxy as LoadingObjectProxy, __webpack_exports__Nametag as Nametag, __webpack_exports__NetworkedVideo as NetworkedVideo, __webpack_exports__SecondXRControllerRay as SecondXRControllerRay, __webpack_exports__TextChat as TextChat, __webpack_exports__TextComponent as TextComponent, __webpack_exports__TextProxy as TextProxy, __webpack_exports__Video as Video, __webpack_exports__VideoLoader as VideoLoader, __webpack_exports__VideoLoaderProxy as VideoLoaderProxy, __webpack_exports__VideoProxy as VideoProxy, __webpack_exports__VideoStateUpdated as VideoStateUpdated, __webpack_exports__VirtualJoystick as VirtualJoystick, __webpack_exports__VirtualJoystickEvent as VirtualJoystickEvent, __webpack_exports__VirtualJoystickEventListener as VirtualJoystickEventListener, __webpack_exports__VirtualJoystickEventProxy as VirtualJoystickEventProxy, __webpack_exports__VirtualJoystickEventType as VirtualJoystickEventType, __webpack_exports__VirtualJoystickLeft as VirtualJoystickLeft, __webpack_exports__VirtualJoystickProxy as VirtualJoystickProxy, __webpack_exports__VirtualJoystickRight as VirtualJoystickRight, __webpack_exports__VirtualJoystickType as VirtualJoystickType, __webpack_exports__WebXRARButton as WebXRARButton, __webpack_exports__WebXRVRButton as WebXRVRButton, __webpack_exports__XRControllerRay as XRControllerRay, __webpack_exports__XRControllerRayProxy as XRControllerRayProxy, __webpack_exports__addNametagComponent as addNametagComponent, __webpack_exports__addTextComponent as addTextComponent, __webpack_exports__addXRControllerRayComponent as addXRControllerRayComponent, __webpack_exports__avatarKeyControlsSystem as avatarKeyControlsSystem, __webpack_exports__avatarMouseControlsSystem as avatarMouseControlsSystem, __webpack_exports__avatarVirtualJoystickSystem as avatarVirtualJoystickSystem, __webpack_exports__billboardSystem as billboardSystem, __webpack_exports__clearVirtualJoystickEventSystem as clearVirtualJoystickEventSystem, __webpack_exports__gltfMixerAnimationSystem as gltfMixerAnimationSystem, __webpack_exports__imageLoadSystem as imageLoadSystem, __webpack_exports__imageSystem as imageSystem, __webpack_exports__isTextChat as isTextChat, __webpack_exports__lazilyUpdateVideoStateSystem as lazilyUpdateVideoStateSystem, __webpack_exports__loadingObjectSystem as loadingObjectSystem, __webpack_exports__nametagSystem as nametagSystem, __webpack_exports__parseReceivedTextChat as parseReceivedTextChat, __webpack_exports__sendTextChat as sendTextChat, __webpack_exports__textChatUISystem as textChatUISystem, __webpack_exports__textSystem as textSystem, __webpack_exports__videoLoadSystem as videoLoadSystem, __webpack_exports__videoSerializers as videoSerializers, __webpack_exports__videoSystem as videoSystem, __webpack_exports__virtualJoystickUISystem as virtualJoystickUISystem, __webpack_exports__webXrButtonsUISystem as webXrButtonsUISystem, __webpack_exports__xrControllerRaySystem as xrControllerRaySystem };
+export { __webpack_exports__AvatarMouseControls as AvatarMouseControls, __webpack_exports__AvatarMouseControlsProxy as AvatarMouseControlsProxy, __webpack_exports__Billboard as Billboard, __webpack_exports__FirstXRControllerRay as FirstXRControllerRay, __webpack_exports__ImageComponent as ImageComponent, __webpack_exports__ImageLoader as ImageLoader, __webpack_exports__ImageLoaderProxy as ImageLoaderProxy, __webpack_exports__ImageProxy as ImageProxy, __webpack_exports__LazyVideoStateUpdate as LazyVideoStateUpdate, __webpack_exports__LazyVideoStateUpdateProxy as LazyVideoStateUpdateProxy, __webpack_exports__LoadingObject as LoadingObject, __webpack_exports__LoadingObjectLoader as LoadingObjectLoader, __webpack_exports__LoadingObjectProxy as LoadingObjectProxy, __webpack_exports__Nametag as Nametag, __webpack_exports__NetworkedVideo as NetworkedVideo, __webpack_exports__SecondXRControllerRay as SecondXRControllerRay, __webpack_exports__TextChat as TextChat, __webpack_exports__TextComponent as TextComponent, __webpack_exports__TextProxy as TextProxy, __webpack_exports__Video as Video, __webpack_exports__VideoLoader as VideoLoader, __webpack_exports__VideoLoaderProxy as VideoLoaderProxy, __webpack_exports__VideoProxy as VideoProxy, __webpack_exports__VideoStateUpdated as VideoStateUpdated, __webpack_exports__VirtualJoystick as VirtualJoystick, __webpack_exports__VirtualJoystickEvent as VirtualJoystickEvent, __webpack_exports__VirtualJoystickEventListener as VirtualJoystickEventListener, __webpack_exports__VirtualJoystickEventProxy as VirtualJoystickEventProxy, __webpack_exports__VirtualJoystickEventType as VirtualJoystickEventType, __webpack_exports__VirtualJoystickLeft as VirtualJoystickLeft, __webpack_exports__VirtualJoystickProxy as VirtualJoystickProxy, __webpack_exports__VirtualJoystickRight as VirtualJoystickRight, __webpack_exports__VirtualJoystickType as VirtualJoystickType, __webpack_exports__WebXRARButton as WebXRARButton, __webpack_exports__WebXRVRButton as WebXRVRButton, __webpack_exports__XRControllerRay as XRControllerRay, __webpack_exports__XRControllerRayProxy as XRControllerRayProxy, __webpack_exports__addNametagComponent as addNametagComponent, __webpack_exports__addTextComponent as addTextComponent, __webpack_exports__addXRControllerRayComponent as addXRControllerRayComponent, __webpack_exports__avatarKeyControlsSystem as avatarKeyControlsSystem, __webpack_exports__avatarMouseControlsSystem as avatarMouseControlsSystem, __webpack_exports__avatarVirtualJoystickSystem as avatarVirtualJoystickSystem, __webpack_exports__billboardSystem as billboardSystem, __webpack_exports__clearVirtualJoystickEventSystem as clearVirtualJoystickEventSystem, __webpack_exports__gltfMixerAnimationSystem as gltfMixerAnimationSystem, __webpack_exports__imageLoadSystem as imageLoadSystem, __webpack_exports__imageSystem as imageSystem, __webpack_exports__isTextChat as isTextChat, __webpack_exports__lazilyUpdateVideoStateSystem as lazilyUpdateVideoStateSystem, __webpack_exports__loadingObjectSystem as loadingObjectSystem, __webpack_exports__mouseInteractionTriggerSystem as mouseInteractionTriggerSystem, __webpack_exports__nametagSystem as nametagSystem, __webpack_exports__parseReceivedTextChat as parseReceivedTextChat, __webpack_exports__sendTextChat as sendTextChat, __webpack_exports__textChatUISystem as textChatUISystem, __webpack_exports__textSystem as textSystem, __webpack_exports__touchInteractionTriggerSystem as touchInteractionTriggerSystem, __webpack_exports__videoLoadSystem as videoLoadSystem, __webpack_exports__videoSerializers as videoSerializers, __webpack_exports__videoSystem as videoSystem, __webpack_exports__virtualJoystickUISystem as virtualJoystickUISystem, __webpack_exports__webXrButtonsUISystem as webXrButtonsUISystem, __webpack_exports__webxrControllerInteractionTriggerSystem as webxrControllerInteractionTriggerSystem, __webpack_exports__xrControllerRaySystem as xrControllerRaySystem };
 
 //# sourceMappingURL=addons.bundle.js.map
