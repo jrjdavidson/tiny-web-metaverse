@@ -214,6 +214,7 @@ export declare const avatarMouseControlsSystem: (world: IWorld) => void;
 export declare const avatarVirtualJoystickSystem: (world: IWorld) => void;
 export declare const billboardSystem: (world: IWorld) => void;
 export declare const gltfMixerAnimationSystem: (world: IWorld) => void;
+export declare const gltfAssetBVHSystem: (world: IWorld) => void;
 export declare const gltfAssetRecenterSystem: (world: IWorld) => void;
 export declare const gltfAssetResizeSystem: (world: IWorld) => void;
 export declare const grabSystem: (world: IWorld) => void;

@@ -15,6 +15,7 @@ import {
   billboardSystem,
   clearVirtualJoystickEventSystem,
   FirstXRControllerRay,
+  gltfAssetBVHSystem,
   gltfAssetRecenterSystem,
   gltfAssetResizeSystem,
   gltfMixerAnimationSystem,
@@ -165,6 +166,7 @@ const run = async (): Promise<void> => {
 
   app.registerSystem(gltfAssetResizeSystem, SystemOrder.Setup + 1);
   app.registerSystem(gltfAssetRecenterSystem, SystemOrder.Setup + 2);
+  app.registerSystem(gltfAssetBVHSystem, SystemOrder.Setup + 3);
 
   app.registerSystem(avatarKeyControlsSystem, SystemOrder.BeforeMatricesUpdate);
   app.registerSystem(avatarMouseControlsSystem, SystemOrder.BeforeMatricesUpdate);
