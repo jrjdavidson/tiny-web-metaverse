@@ -2,7 +2,7 @@
 
 import { Component, IComponent, IWorld } from 'bitecs';
 import { AnimationAction, AnimationClip, AnimationMixer, Group, Object3D, PerspectiveCamera, Ray, Scene, Texture, WebGLRenderer } from 'three';
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF, GLTFLoaderPlugin, GLTFParser } from 'three/examples/jsm/loaders/GLTFLoader';
 
 export declare const NULL_EID = 0;
 export declare const INITIAL_VERSION = 0;
@@ -153,6 +153,18 @@ export declare class GltfLoaderProxy {
 	allocate(url: string): void;
 	free(): void;
 	get url(): string;
+}
+export declare const GltfLoaderPluginComponent: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export type Plugin = (parser: GLTFParser) => GLTFLoaderPlugin;
+export declare class GltfLoaderPluginProxy {
+	private static instance;
+	private eid;
+	private map;
+	private constructor();
+	static get(eid: number): GltfLoaderPluginProxy;
+	allocate(plugin: Plugin): void;
+	free(): void;
+	get plugin(): Plugin;
 }
 export declare const FirstSourceInteractable: import("bitecs").ComponentType<import("bitecs").ISchema>;
 export declare const FirstSourceInteracted: import("bitecs").ComponentType<import("bitecs").ISchema>;
@@ -1096,7 +1108,7 @@ export declare const hasSerializers: (world: IWorld, key: string) => boolean;
 export declare const getComponentKey: (world: IWorld, component: IComponent) => string;
 export declare const hasComponentKey: (world: IWorld, component: IComponent) => boolean;
 export declare const getStreamClientProxy: (world: IWorld) => StreamClientProxy;
-export declare function loadGltf(url: string): Generator<void, GLTF>;
+export declare function loadGltf(url: string, plugins?: ((parser: GLTFParser) => GLTFLoaderPlugin)[]): Generator<void, GLTF>;
 export declare const resizeObject3D: (obj: Object3D, targetSize?: number) => Object3D;
 export declare const recenterObject3D: (obj: Object3D) => Object3D;
 export declare function loadHdrTexture(url: string): Generator<void, Texture>;

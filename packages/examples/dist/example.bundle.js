@@ -8489,6 +8489,8 @@ EntityObject3DProxy.instance = new EntityObject3DProxy();
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   GltfLoader: () => (/* binding */ GltfLoader),
+/* harmony export */   GltfLoaderPluginComponent: () => (/* binding */ GltfLoaderPluginComponent),
+/* harmony export */   GltfLoaderPluginProxy: () => (/* binding */ GltfLoaderPluginProxy),
 /* harmony export */   GltfLoaderProxy: () => (/* binding */ GltfLoaderProxy),
 /* harmony export */   GltfRoot: () => (/* binding */ GltfRoot),
 /* harmony export */   GltfRootProxy: () => (/* binding */ GltfRootProxy)
@@ -8539,6 +8541,27 @@ class GltfLoaderProxy {
     }
 }
 GltfLoaderProxy.instance = new GltfLoaderProxy();
+const GltfLoaderPluginComponent = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineComponent)();
+class GltfLoaderPluginProxy {
+    constructor() {
+        this.eid = _common__WEBPACK_IMPORTED_MODULE_1__.NULL_EID;
+        this.map = new Map();
+    }
+    static get(eid) {
+        GltfLoaderPluginProxy.instance.eid = eid;
+        return GltfLoaderPluginProxy.instance;
+    }
+    allocate(plugin) {
+        this.map.set(this.eid, plugin);
+    }
+    free() {
+        this.map.delete(this.eid);
+    }
+    get plugin() {
+        return this.map.get(this.eid);
+    }
+}
+GltfLoaderPluginProxy.instance = new GltfLoaderPluginProxy();
 
 
 /***/ }),
@@ -14257,9 +14280,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   loadGltfBitecs: () => (/* binding */ loadGltfBitecs)
 /* harmony export */ });
 /* harmony import */ var bitecs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bitecs */ "../../node_modules/bitecs/dist/index.mjs");
-/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./three */ "../client/src/utils/three.ts");
+/* harmony import */ var _three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./three */ "../client/src/utils/three.ts");
 /* harmony import */ var _components_camera__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/camera */ "../client/src/components/camera.ts");
-/* harmony import */ var _components_gltf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/gltf */ "../client/src/components/gltf.ts");
+/* harmony import */ var _components_gltf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/gltf */ "../client/src/components/gltf.ts");
 /* harmony import */ var _components_renderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/renderer */ "../client/src/components/renderer.ts");
 /* harmony import */ var _components_mixer_animation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/mixer_animation */ "../client/src/components/mixer_animation.ts");
 
@@ -14270,6 +14293,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const rendererQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_renderer__WEBPACK_IMPORTED_MODULE_1__.Renderer]);
 const cameraQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_camera__WEBPACK_IMPORTED_MODULE_2__.PerspectiveCameraComponent, _components_camera__WEBPACK_IMPORTED_MODULE_2__.SceneCamera]);
+const pluginQuery = (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.defineQuery)([_components_gltf__WEBPACK_IMPORTED_MODULE_3__.GltfLoaderPluginComponent]);
 // TODO: Return entity id, not proxy
 const getRendererProxy = (world) => {
     // Assumes always single renderer entity exists
@@ -14280,15 +14304,16 @@ const getSceneCameraProxy = (world) => {
     return _components_camera__WEBPACK_IMPORTED_MODULE_2__.PerspectiveCameraProxy.get(cameraQuery(world)[0]);
 };
 function* loadGltfBitecs(world, eid, url) {
-    const gltf = yield* (0,_three__WEBPACK_IMPORTED_MODULE_3__.loadGltf)(url);
+    const plugins = pluginQuery(world).map(eid => _components_gltf__WEBPACK_IMPORTED_MODULE_3__.GltfLoaderPluginProxy.get(eid).plugin);
+    const gltf = yield* (0,_three__WEBPACK_IMPORTED_MODULE_4__.loadGltf)(url, plugins);
     // TODO: Throw error if no gltf.scene?
     // TODO: What if multiple scenes?
     const scene = gltf.scene || gltf.scenes[0];
     for (const animation of gltf.animations) {
         scene.animations.push(animation);
     }
-    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_gltf__WEBPACK_IMPORTED_MODULE_4__.GltfRoot, eid);
-    _components_gltf__WEBPACK_IMPORTED_MODULE_4__.GltfRootProxy.get(eid).allocate(scene);
+    (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_gltf__WEBPACK_IMPORTED_MODULE_3__.GltfRoot, eid);
+    _components_gltf__WEBPACK_IMPORTED_MODULE_3__.GltfRootProxy.get(eid).allocate(scene);
     // TODO: Write comment
     if (scene.animations.length > 0) {
         (0,bitecs__WEBPACK_IMPORTED_MODULE_0__.addComponent)(world, _components_mixer_animation__WEBPACK_IMPORTED_MODULE_5__.HasAnimations, eid);
@@ -14759,9 +14784,12 @@ const box = new three__WEBPACK_IMPORTED_MODULE_0__.Box3();
 const size = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
 const center = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
 const mat4 = new three__WEBPACK_IMPORTED_MODULE_0__.Matrix4();
-function* loadGltf(url) {
+function* loadGltf(url, plugins = []) {
     // TODO: Creating GLTFLoader every time is inefficient? Reuse the loader?
     const loader = new three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_1__.GLTFLoader();
+    for (const plugin of plugins) {
+        loader.register(plugin);
+    }
     return yield* (0,_coroutine__WEBPACK_IMPORTED_MODULE_2__.toGenerator)(new Promise((resolve, reject) => {
         loader.load(url, resolve, undefined, reject);
     }));

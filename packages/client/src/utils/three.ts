@@ -7,7 +7,12 @@ import {
   Texture,
   Vector3
 } from "three";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import {
+  GLTF,
+  GLTFLoader,
+  GLTFLoaderPlugin,
+  GLTFParser
+} from "three/examples/jsm/loaders/GLTFLoader";
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { toGenerator } from "./coroutine";
 
@@ -16,9 +21,17 @@ const size = new Vector3();
 const center = new Vector3();
 const mat4 = new Matrix4();
 
-export function* loadGltf(url: string): Generator<void, GLTF> {
+export function* loadGltf(
+  url: string,
+  plugins: ((parser: GLTFParser) => GLTFLoaderPlugin)[] = []
+): Generator<void, GLTF> {
   // TODO: Creating GLTFLoader every time is inefficient? Reuse the loader?
   const loader = new GLTFLoader();
+
+  for (const plugin of plugins) {
+    loader.register(plugin);
+  }
+
   return yield* toGenerator(new Promise((resolve, reject) => {
     loader.load(url, resolve, undefined, reject);
   }));

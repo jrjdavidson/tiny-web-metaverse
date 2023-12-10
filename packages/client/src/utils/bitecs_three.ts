@@ -6,12 +6,18 @@ import {
   PerspectiveCameraProxy,
   SceneCamera
 } from "../components/camera";
-import { GltfRoot, GltfRootProxy } from "../components/gltf";
+import {
+  GltfLoaderPluginComponent,
+  GltfLoaderPluginProxy,
+  GltfRoot,
+  GltfRootProxy
+} from "../components/gltf";
 import { Renderer, RendererProxy } from "../components/renderer";
 import { HasAnimations } from "../components/mixer_animation";
 
 const rendererQuery = defineQuery([Renderer]);
 const cameraQuery = defineQuery([PerspectiveCameraComponent, SceneCamera]);
+const pluginQuery = defineQuery([GltfLoaderPluginComponent]);
 
 // TODO: Return entity id, not proxy
 
@@ -26,7 +32,8 @@ export const getSceneCameraProxy = (world: IWorld): PerspectiveCameraProxy => {
 };
 
 export function* loadGltfBitecs(world: IWorld, eid: number, url: string): Generator<void, GLTF> {
-  const gltf = yield* loadGltf(url);
+  const plugins = pluginQuery(world).map(eid => GltfLoaderPluginProxy.get(eid).plugin);
+  const gltf = yield* loadGltf(url, plugins);
 
   // TODO: Throw error if no gltf.scene?
   // TODO: What if multiple scenes?
