@@ -79,7 +79,11 @@ const swapRootObject3D = (
   const proxy = EntityObject3DProxy.get(eid);
   const oldRoot = proxy.root;
 
+  // We don't copy animations because animations must be attached to
+  // an object rather than root entity object.
+  const animations = newRoot.animations;
   Object3D.prototype.copy.call(newRoot, oldRoot, false);
+  newRoot.animations = animations;
 
   if (oldRoot.parent !== null) {
     oldRoot.parent.add(newRoot);

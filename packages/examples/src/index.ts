@@ -15,6 +15,8 @@ import {
   billboardSystem,
   clearVirtualJoystickEventSystem,
   FirstXRControllerRay,
+  gltfAssetRecenterSystem,
+  gltfAssetResizeSystem,
   gltfMixerAnimationSystem,
   grabbedObjectsRayTrackSystem,
   grabSystem,
@@ -56,8 +58,8 @@ import {
   BroadcastNetworkEventListener,
   ConnectedStreamEventListener,
   createNetworkedEntity,
-  GltfSceneLoader,
-  GltfSceneLoaderProxy,
+  GltfLoader,
+  GltfLoaderProxy,
   EntityObject3DProxy,
   InScene,
   interactSystem,
@@ -73,6 +75,7 @@ import {
   registerSerializers,
   SceneEnvironmentMapLoader,
   SceneEnvironmentMapLoaderProxy,
+  SceneObject,
   SystemOrder,
   UserNetworkEventListener,
   WindowResizeEventListener,
@@ -160,6 +163,9 @@ const run = async (): Promise<void> => {
   app.registerSystem(gltfMixerAnimationSystem, SystemOrder.Setup + 1);
   app.registerSystem(lazilyUpdateVideoStateSystem, SystemOrder.Setup + 1);
 
+  app.registerSystem(gltfAssetResizeSystem, SystemOrder.Setup + 1);
+  app.registerSystem(gltfAssetRecenterSystem, SystemOrder.Setup + 2);
+
   app.registerSystem(avatarKeyControlsSystem, SystemOrder.BeforeMatricesUpdate);
   app.registerSystem(avatarMouseControlsSystem, SystemOrder.BeforeMatricesUpdate);
   app.registerSystem(aiAvatarSystem, SystemOrder.BeforeMatricesUpdate);
@@ -193,8 +199,9 @@ const run = async (): Promise<void> => {
 
   const sceneObjectEid = addEntity(world);
   addComponent(world, InScene, sceneObjectEid);
-  addComponent(world, GltfSceneLoader, sceneObjectEid);
-  GltfSceneLoaderProxy.get(sceneObjectEid).allocate(sceneAssetUrl);
+  addComponent(world, SceneObject, sceneObjectEid);
+  addComponent(world, GltfLoader, sceneObjectEid);
+  GltfLoaderProxy.get(sceneObjectEid).allocate(sceneAssetUrl);
   addComponent(world, InvisibleInAR, sceneObjectEid);
 
   const rendererQuery = defineQuery([Renderer]);
@@ -292,14 +299,14 @@ const run = async (): Promise<void> => {
   const duckEid = createNetworkedEntity(world, NetworkedType.Shared, 'duck');
   EntityObject3DProxy.get(duckEid).root.position.set(
     (Math.random() - 0.5) * 10.0,
-    0.1,
+    0.25,
     (Math.random() - 0.5) * 10.0
   );
 
   const foxEid = createNetworkedEntity(world, NetworkedType.Shared, 'fox');
   EntityObject3DProxy.get(foxEid).root.position.set(
     (Math.random() - 0.5) * 10.0,
-    0.1,
+    0.25,
     (Math.random() - 0.5) * 10.0
   );
 

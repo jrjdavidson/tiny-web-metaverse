@@ -7,35 +7,35 @@ import {
   IWorld,
   removeComponent
 } from "bitecs";
-import { Loading } from "../components/load";
 import {
-  GltfSceneLoader,
-  GltfSceneLoaderProxy
+  GltfLoader,
+  GltfLoaderProxy
 } from "../components/gltf";
-import { SceneObject } from "../components/scene";
+import { Loading } from "../components/load";
 import { addObject3D } from "../utils/entity_object3d";
 import { loadGltfBitecs } from "../utils/bitecs_three";
 
 function* load(world: IWorld, eid: number): Generator {
   addComponent(world, Loading, eid);
-  const url = GltfSceneLoaderProxy.get(eid).url;
+  const url = GltfLoaderProxy.get(eid).url;
   const gltf = yield* loadGltfBitecs(world, eid, url);
+
   // TODO: Throw error if no gltf.scene?
   const scene = gltf.scene || gltf.scenes[0];
+
   addObject3D(world, scene, eid);
-  addComponent(world, SceneObject, eid);
 }
 
-const loaderQuery = defineQuery([GltfSceneLoader]);
+const loaderQuery = defineQuery([GltfLoader]);
 const loaderEnterQuery = enterQuery(loaderQuery);
 const loaderExitQuery = exitQuery(loaderQuery);
 
 const generators = new Map<number, Generator>();
 
-export const gltfSceneLoadSystem = (world: IWorld): void => {
+export const gltfLoadSystem = (world: IWorld): void => {
   loaderExitQuery(world).forEach(eid => {
     generators.delete(eid);
-    GltfSceneLoaderProxy.get(eid).free();
+    GltfLoaderProxy.get(eid).free();
     if (hasComponent(world, Loading, eid)) {
       removeComponent(world, Loading, eid);
     }
@@ -57,8 +57,8 @@ export const gltfSceneLoadSystem = (world: IWorld): void => {
       done = true;
     }
     if (done) {
-      removeComponent(world, GltfSceneLoader, eid);
+      removeComponent(world, GltfLoader, eid);
       removeComponent(world, Loading, eid);
     }
-  })
+  });
 };

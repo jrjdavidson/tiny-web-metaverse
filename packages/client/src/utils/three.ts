@@ -2,6 +2,7 @@ import {
   AnimationClip,
   Box3,
   EquirectangularReflectionMapping,
+  Matrix4,
   Object3D,
   Texture,
   Vector3
@@ -13,6 +14,7 @@ import { toGenerator } from "./coroutine";
 const box = new Box3();
 const size = new Vector3();
 const center = new Vector3();
+const mat4 = new Matrix4();
 
 export function* loadGltf(url: string): Generator<void, GLTF> {
   // TODO: Creating GLTFLoader every time is inefficient? Reuse the loader?
@@ -22,8 +24,13 @@ export function* loadGltf(url: string): Generator<void, GLTF> {
   }));
 }
 
-export const resizeObject3D = (obj: Object3D, targetSize = 1.0): Object3D => {
+const setFromObject = (box: Box3, obj: Object3D): void => {
   box.setFromObject(obj);
+  box.applyMatrix4(mat4.copy(obj.matrixWorld).invert());
+};
+
+export const resizeObject3D = (obj: Object3D, targetSize = 1.0): Object3D => {
+  setFromObject(box, obj);
 
   if (box.isEmpty()) {
     return obj;
@@ -31,20 +38,20 @@ export const resizeObject3D = (obj: Object3D, targetSize = 1.0): Object3D => {
 
   box.getSize(size);
   const scalar = targetSize / Math.max(size.x, size.y, size.z);
-  obj.scale.multiplyScalar(scalar);
+  obj.scale.set(1.0, 1.0, 1.0).multiplyScalar(scalar);
 
   return obj;
 };
 
 export const recenterObject3D = (obj: Object3D): Object3D => {
-  box.setFromObject(obj);
+  setFromObject(box, obj);
 
   if (box.isEmpty()) {
     return obj;
   }
 
   box.getCenter(center);
-  obj.position.add(center.sub(obj.position).multiplyScalar(-0.5));
+  obj.position.add(center.multiplyScalar(-1.0).multiply(obj.scale));
 
   return obj;
 };

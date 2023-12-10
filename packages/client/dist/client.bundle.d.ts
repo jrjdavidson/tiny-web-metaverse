@@ -143,24 +143,13 @@ export declare class GltfRootProxy {
 	free(): void;
 	get root(): Group;
 }
-export declare const GltfAssetLoader: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare class GltfAssetLoaderProxy {
+export declare const GltfLoader: import("bitecs").ComponentType<import("bitecs").ISchema>;
+export declare class GltfLoaderProxy {
 	private static instance;
 	private eid;
 	private map;
 	private constructor();
-	static get(eid: number): GltfAssetLoaderProxy;
-	allocate(url: string): void;
-	free(): void;
-	get url(): string;
-}
-export declare const GltfSceneLoader: import("bitecs").ComponentType<import("bitecs").ISchema>;
-export declare class GltfSceneLoaderProxy {
-	private static instance;
-	private eid;
-	private map;
-	private constructor();
-	static get(eid: number): GltfSceneLoaderProxy;
+	static get(eid: number): GltfLoaderProxy;
 	allocate(url: string): void;
 	free(): void;
 	get url(): string;
@@ -1015,8 +1004,7 @@ export declare const entityObject3DSystem: (world: IWorld) => void;
 export declare const entityRemovalSystem: (world: IWorld) => void;
 export declare const fpsCameraSystem: (world: IWorld) => void;
 export declare const gltfSystem: (world: IWorld) => void;
-export declare const gltfAssetLoadSystem: (world: IWorld) => void;
-export declare const gltfSceneLoadSystem: (world: IWorld) => void;
+export declare const gltfLoadSystem: (world: IWorld) => void;
 export declare const interactSystem: (world: IWorld) => void;
 export declare const clearInteractionSystem: (world: IWorld) => void;
 export declare const keyEventHandleSystem: (world: IWorld) => void;

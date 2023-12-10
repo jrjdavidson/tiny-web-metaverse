@@ -12,8 +12,8 @@ import {
   EntityObject3D,
   EntityObject3DProxy,
   FirstSourceInteractable,
-  GltfAssetLoader,
-  GltfAssetLoaderProxy,
+  GltfLoader,
+  GltfLoaderProxy,
   InScene,
   MixerAnimation,
   MixerAnimationProxy,
@@ -52,7 +52,7 @@ export const FoxPrefab = (world: IWorld): number => {
   addComponent(world, EntityObject3D, eid);
   EntityObject3DProxy.get(eid).allocate();
 
-  addComponent(world, GltfAssetLoader, eid);
-  GltfAssetLoaderProxy.get(eid).allocate(assetUrl);
+  addComponent(world, GltfLoader, eid);
+  GltfLoaderProxy.get(eid).allocate(assetUrl);
   return eid;
 };

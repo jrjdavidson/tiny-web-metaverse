@@ -19,6 +19,8 @@ export * from "./systems/avatar_mouse_controls";
 export * from "./systems/avatar_virtual_joystick_controls";
 export * from "./systems/billboard";
 export * from "./systems/gltf_mixer_animation";
+export * from "./systems/gltf_asset_recenter";
+export * from "./systems/gltf_asset_resize";
 export * from "./systems/grab";
 export * from "./systems/grab_ray_track";
 export * from "./systems/image";

@@ -11,8 +11,8 @@ import {
   EntityObject3D,
   EntityObject3DProxy,
   FirstSourceInteractable,
-  GltfAssetLoader,
-  GltfAssetLoaderProxy,
+  GltfLoader,
+  GltfLoaderProxy,
   InScene,
   MouseButtonEventListener,
   NetworkedPosition,
@@ -44,7 +44,7 @@ export const DuckPrefab = (world: IWorld): number => {
   addComponent(world, EntityObject3D, eid);
   EntityObject3DProxy.get(eid).allocate();
 
-  addComponent(world, GltfAssetLoader, eid);
-  GltfAssetLoaderProxy.get(eid).allocate(assetUrl);
+  addComponent(world, GltfLoader, eid);
+  GltfLoaderProxy.get(eid).allocate(assetUrl);
   return eid;
 };

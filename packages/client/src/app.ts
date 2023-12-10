@@ -125,8 +125,7 @@ import { entityObject3DSystem } from "./systems/entity_object3d";
 import { entityRemovalSystem } from "./systems/entity_removal";
 import { fpsCameraSystem } from "./systems/fps_camera";
 import { gltfSystem } from "./systems/gltf";
-import { gltfAssetLoadSystem } from "./systems/gltf_asset_load";
-import { gltfSceneLoadSystem } from "./systems/gltf_scene_load";
+import { gltfLoadSystem } from "./systems/gltf_load";
 import { clearInteractionSystem, interactSystem } from "./systems/interaction";
 import {
   keyEventHandleSystem,
@@ -300,8 +299,7 @@ export class App {
     this.registerSystem(entityObject3DSystem, SystemOrder.Setup);
     this.registerSystem(sceneSystem, SystemOrder.Setup);
     this.registerSystem(perspectiveCameraSystem, SystemOrder.Setup);
-    this.registerSystem(gltfAssetLoadSystem, SystemOrder.Setup);
-    this.registerSystem(gltfSceneLoadSystem, SystemOrder.Setup);
+    this.registerSystem(gltfLoadSystem, SystemOrder.Setup);
     this.registerSystem(gltfSystem, SystemOrder.Setup);
     this.registerSystem(sceneEnvironmentMapLoadSystem, SystemOrder.Setup);
     this.registerSystem(mixerAnimationSystem, SystemOrder.Setup);
